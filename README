@@ -1,0 +1,24 @@
+How to start make this project work in eclipse after you check it out:
+
+# If you don't have the maven play module installed yet:
+$ play install maven
+
+Add the maven dependency to your conf/dependencies.yml
+
+    - play -> maven head
+
+Then: 
+cd $wherever/project
+./init-play
+
+This could take a while if you haven't done this before on this computer.
+
+Start Eclipse
+Import 'existing project into workspace'
+Right-click project, select Team->Share Project, Select GIT
+
+Boiler-plate for Play projects:
+
+.gitignore
+init-play
+README

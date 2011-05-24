@@ -1,0 +1,21 @@
+# Eclipse files
+/.classpath
+/.project
+/.settings
+/eclipse/
+
+# Netbeans
+/nbproject
+
+# Files created by play 
+/tmp/
+/logs/
+/test-result/
+/modules/
+/lib/
+/hs*.log
+
+# Others
+/*.ser
+.*.swp
+

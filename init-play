@@ -1,0 +1,8 @@
+#!/bin/sh
+
+play dependencies
+play mvn:init
+# Since that overwrites the pom.xml that came with the project:
+rm pom.xml && mv pom.xml.bak pom.xml
+play mvn:update
+play eclipsify
