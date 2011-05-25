@@ -3,3 +3,5 @@
 require:
     - play
     - play -> maven head
+    - play -> secure
+    - play -> crud
