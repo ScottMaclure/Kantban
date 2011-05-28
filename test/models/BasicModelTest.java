@@ -1,23 +1,36 @@
 package models;
-import org.junit.*;
 
-import java.util.*;
-import play.test.*;
-import models.*;
+import java.util.Date;
+
+import org.junit.Before;
+
+import play.test.Fixtures;
+import play.test.UnitTest;
 
 public abstract class BasicModelTest extends UnitTest {
+	
 	@Before
 	public void clean() {
+		//System.out.println("Flushing");
 		Fixtures.deleteDatabase();
 	}
 	
 	protected User getDefaultUser() {
 		User user = User.find("byName", "Foo Bar").first();
 		if (user == null) {
-			user = new User("foo@bar.com", "Foo Bar");
+			user = new User("foo@bar.com", "password", "Foo Bar");
 	    	user.save();
 		}
     	return user;
+	}
+	
+	protected Project getDefaultProject() {
+		Project project = Project.find("byTitle", "Project Foo").first();
+		if (project == null) {
+			project = new Project("Project Foo", getDefaultUser());
+	    	project.save();
+		}
+    	return project;
 	}
 	
 	/**
