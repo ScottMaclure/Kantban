@@ -1,25 +1,27 @@
 package models;
 import java.util.List;
 
-import models.Task.TaskType;
-
+import static org.hamcrest.CoreMatchers.*;
+import static models.Matchers.*;
 import org.junit.Test;
 
 public class TaskTest extends BasicModelTest {
 	
     @Test
     public void newTaskTest() {
-    	Task task = new Task(TaskType.Task, getDefaultUser());
-    	assertNotNull(task);
+    	Task task = new Task(getDefaultStory(), "Task title", getDefaultUser());
+    	assertThat(task, notNullValue());
+    	task.description = "This is the description for the task";
     	task.save();
     	
     	List<Task> tasks = Task.findAll();
-    	assertEquals(1, tasks.size());
+    	assertThat(tasks.size(), is(1));
     	task = tasks.get(0);
-    	assertNotNull(task);
-    	assertEquals(TaskType.Task, task.type);
-    	assertDateFresh(task.createdOn);
-    	assertEquals(getDefaultUser(), task.createdUser);
+    	assertThat(task, notNullValue());
+    	assertThat(task.title, is("Task title"));
+    	assertThat(task.description, is("This is the description for the task"));
+    	assertThat(task.createdOn, recentDate());
+    	assertThat(task.createdUser, is(getDefaultUser()));
     }
 
 

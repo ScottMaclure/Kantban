@@ -2,9 +2,13 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -13,34 +17,80 @@ import play.data.validation.Required;
 import play.db.jpa.Model;
 
 @Entity
-public class Story extends Model {
+public class Story extends AuditedModel {
 	
-	@Required @Column(nullable = false)
+	// A story has to be in a project
+	// This should be protected
+	@Required 
+	@ManyToOne(optional = false) 
+	public Project project;
+	
+	@Required 
+	@Column(nullable = false)
 	public String title;
 	public String description;
+	@Lob
+	public String details;
 	
-	@Column(nullable = false)
-	public StoryStatus status;
+	/**
+	 * Rank is used to order stories relative to each other.
+	 */
+	public Double rank;
 	
-	@OneToMany
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST})
+	public State state;
+	
+	@OneToMany(mappedBy = "story")
 	List<Task> tasks;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "story")
 	List<Comment> comments;
 	
-	public Date createdOn;
+    @ManyToMany(cascade=CascadeType.PERSIST)
+    public Set<Tag> tags;
+    
+	/**
+	 * Create a new story
+	 * <p>
+	 * Story creation and deletion is entirely managed through
+	 * the Project model interface.
+	 * <p>
+	 * <em>Do not construct a story directly.</em>
+	 *  
+	 * @param project
+	 * @param state
+	 * @param title
+	 * @param createdUser
+	 */
+	protected Story(@Nonnull Project project, @Nonnull State state, @Nonnull String title, @Nonnull User createdUser) {
+		super(createdUser);
+		this.project = project;
+		this.title = title;
+		// TODO Check that state is in project
+		this.state = state;	
+	}
 
-	@ManyToOne(optional = false)
-	public User createdUser;
-	
-	enum StoryStatus {
-		Planned, Scheduled, InProgress, InReview, Finished
+	/**
+	 * Create a new storywith the default state
+	 * @see #Story(Project, State, String, User)
+	 */
+	protected Story(@Nonnull Project project, @Nonnull String title, @Nonnull User createdUser) {
+		this(project, project.states.get(0), title, createdUser);
 	}
 	
-	public Story(String title, User createdUser) {
-		this.title = title;
-		this.createdUser = createdUser;
-		this.createdOn = new Date();
-		this.status = StoryStatus.Planned;
+	public Comment newComment(String text, User createdUser) {
+		Comment comment = new Comment(this, text, createdUser);
+		comments.add(comment);
+		return comment;
+	}
+	
+	public Task newTask(String title, User createdUser) {
+		Task task = new Task(this, title, createdUser);
+		tasks.add(task);
+		return task;
+	}
+	
+	public State getState() {
+		return state != null ? state : project.states.get(0);
 	}
 }

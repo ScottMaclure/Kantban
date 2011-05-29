@@ -1,6 +1,8 @@
 package models;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.*;
+import static models.Matchers.*;
 import org.junit.Test;
 
 public class UserTest extends BasicModelTest {
@@ -9,19 +11,19 @@ public class UserTest extends BasicModelTest {
     public void newUserTest() {
     	
     	User user = new User("foo@bar.com", "password", "Foo Bar");
-    	assertNotNull(user);
+    	assertThat(user, notNullValue());
     	user.save();
 
     	List<User> users = User.findAll();
-    	assertEquals(1, users.size());
+    	assertThat(users.size(), is(1));
     	user = users.get(0);
-    	assertNotNull(user);
-    	assertEquals("foo@bar.com", user.emailAddress);
-    	assertEquals("Foo Bar", user.name);
-    	assertEquals(true, user.active);
+    	assertThat(user, notNullValue());
+    	assertThat(user.emailAddress, is("foo@bar.com"));
+    	assertThat(user.name, is("Foo Bar"));
+    	assertThat(user.active, is(true));
     	
     	user = User.connect("foo@bar.com", "password");
-    	assertNotNull(user);
+    	assertThat(user, notNullValue());
     }
 
 }
