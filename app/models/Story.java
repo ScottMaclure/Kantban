@@ -19,23 +19,30 @@ import play.db.jpa.Model;
 @Entity
 public class Story extends AuditedModel {
 	
-	@Required @Column(nullable = false)
+	// A story has to be in a project
+	@Required 
+	@ManyToOne(optional = false) 
+	protected Project project;
+	
+	@Required 
+	@Column(nullable = false)
 	public String title;
 	public String description;
 	@Lob
 	public String details;
 	
-	// A story has to be in a project
-	@Required @ManyToOne(optional = false) 
-	public Project project;
+	/**
+	 * Rank is used to order stories relative to each other.
+	 */
+	public Double rank;
 	
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
 	public State state;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "story")
 	List<Task> tasks;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "story")
 	List<Comment> comments;
 	
     @ManyToMany(cascade=CascadeType.PERSIST)
@@ -68,5 +75,17 @@ public class Story extends AuditedModel {
 	 */
 	protected Story(@Nonnull Project project, @Nonnull String title, @Nonnull User createdUser) {
 		this(project, project.states.get(0), title, createdUser);
+	}
+	
+	public Comment newComment(String text, User createdUser) {
+		Comment comment = new Comment(this, text, createdUser);
+		comments.add(comment);
+		return comment;
+	}
+	
+	public Task newTask(String title, User createdUser) {
+		Task task = new Task(this, title, createdUser);
+		tasks.add(task);
+		return task;
 	}
 }

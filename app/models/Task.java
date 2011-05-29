@@ -8,26 +8,42 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import play.data.validation.Required;
 import play.db.jpa.Model;
 
 @Entity
 public class Task extends AuditedModel {
 
-	@ManyToOne(optional = true)
-	public User assignedUser;
+	// A task is always added to a story
+	@Required 
+	@ManyToOne(optional = false)
+	private Story story;
 	
 	@Column(nullable = false)
-	public TaskType type;
+	public String title;
+	public String description;
+
+	@ManyToOne(optional = true)
+	public User assignedUser;
 	
 	public Integer estimatedTime; // minutes
 	public Integer actualTime; // minutes
 
-	enum TaskType {
-		Bug, Task	
+	/**
+	 * Task creation should always be handled from the story API
+	 * 
+	 * @see St
+	 * @param story
+	 * @param type
+	 * @param createdUser
+	 */
+	protected Task(Story story, String title, User createdUser) {
+		super(createdUser);
+		this.story = story;
+		this.title = title;
 	}
 	
-	public Task(TaskType type, User createdUser) {
-		super(createdUser);
-		this.type = type;
+	public Story getStory() {
+		return story;
 	}
 }

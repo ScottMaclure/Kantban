@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.Before;
 
 import play.test.Fixtures;
@@ -16,46 +17,30 @@ public abstract class BasicModelTest extends UnitTest {
 	}
 	
 	protected User getDefaultUser() {
-		User user = User.find("byName", "Foo Bar").first();
+		User user = User.find("byName", "Default User").first();
 		if (user == null) {
-			user = new User("foo@bar.com", "password", "Foo Bar");
+			user = new User("default@user.com", "password", "Default User");
 	    	user.save();
 		}
     	return user;
 	}
 	
 	protected Project getDefaultProject() {
-		Project project = Project.find("byTitle", "Project Foo").first();
+		Project project = Project.find("byTitle", "Default Project").first();
 		if (project == null) {
-			project = new Project("Project Foo", getDefaultUser());
+			project = new Project("Default Project", getDefaultUser());
 	    	project.save();
 		}
     	return project;
 	}
 	
-	/**
-	 * Assert that a date was created very recently (< 500 ms ago).
-	 * @param date
-	 */
-	protected void assertDateFresh(Date date) {
-		assertDateClose(date, new Date());
-	}
-	/**
-	 * Assert that two dates are chronological, and less than 500 ms apart.
-	 * @param date1
-	 * @param date2
-	 */
-	protected void assertDateClose(Date date1, Date date2) {
-		assertDateClose(date1, date2, 500);
-	}
-	/**
-	 * Assert that two dates are chronological, and less than maxDifference ms apart.
-	 * @param date1
-	 * @param date2
-	 * @param maxDifference
-	 */
-	protected void assertDateClose(Date date1, Date date2, long maxDifference) {
-		assertTrue(date1.before(date2));
-		assertTrue(date2.getTime() - date1.getTime() < maxDifference);
+	protected Story getDefaultStory() {
+		Project project = getDefaultProject();
+		Story story = Story.find("byProjectAndTitle", project, "Default Story").first();
+		if (story == null) {
+			story = project.newStory("Default Story", getDefaultUser());
+			project.save();
+		}
+		return story;
 	}
 }

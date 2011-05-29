@@ -1,9 +1,12 @@
 package models;
+import static models.Matchers.recentDate;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import models.Task.TaskType;
-
-import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
 
 public class ProjectTest extends BasicModelTest {
@@ -12,22 +15,22 @@ public class ProjectTest extends BasicModelTest {
     public void newProjectTest() {
     
     	Project project = new Project("New project", getDefaultUser());
-    	assertNotNull(project);
+    	assertThat(project, notNullValue());
     	project.save();
     	
     	List<Project> projects = Project.findAll();
     	assertThat(projects.size(), is(1));
     	project = projects.get(0);
-    	assertNotNull(project);
+    	assertThat(project, notNullValue());
     	// FIXME Should do this as a Matcher
-    	assertDateFresh(project.createdOn);
+    	assertThat(project.createdOn, recentDate());
     	assertThat(project.createdUser, is(getDefaultUser()));
     }
     
     @Test
     public void addAndRemoveStatesTest() {
     	Project project = new Project("New project", getDefaultUser());
-    	assertNotNull(project);
+    	assertThat(project, notNullValue());
     	assertThat(project.states.size(), is(5));
     	project.save();
     	
@@ -91,6 +94,57 @@ public class ProjectTest extends BasicModelTest {
     	assertThat(story.state, is(not(state)));
     	assertThat(story.state, is(project.states.get(2)));
     	project.save();
+    }
+    
+    @Test
+    public void testMoveStory() {
+    	// TODO Implement
+    	// Move in one lane
+    	// Move between lanes
+    	// Move between projects
+    	// Move to start
+    	// Move to middle
+    	// Move to end
+    }
+    
+    private void assertLaneSizes(Project project, int start, int second, int end) {
+    	List<Story> sl;
+
+    	sl = project.getSwimlane(project.states.get(0));
+    	assertThat(sl.size(), is(start));
+    	sl = project.getSwimlane(project.states.get(1));
+    	assertThat(sl.size(), is(second));
+    	sl = project.getSwimlane(project.states.get(project.states.size() - 1));
+    	assertThat(sl.size(), is(end));
+    }
+    
+    @Test
+    public void testSwimlanes() {
+    	// Set up the project
+    	Project project = getDefaultProject();
+    	User createdUser = getDefaultUser();
+    	
+    	List<Story> refStories = new ArrayList<Story>();
+    	for (int i = 0; i < 5; i++) {
+    		refStories.add(project.newStory("Story " + i, createdUser));
+    	}
+    	assertThat(project.stories.size(), is(5));
+    	project.save();
+    	
+    	// Test the swim lanes
+    	assertLaneSizes(project, 5, 0, 0);
+    	project.moveStory(refStories.get(0), project.states.get(1), 1.0d);
+    	project.save();
+    	assertLaneSizes(project, 4, 1, 0);
+    	project.moveStory(refStories.get(1), project.states.get(1), 1.0d);
+    	project.moveStory(refStories.get(0), project.states.get(project.states.size() - 1), 1.0d);
+    	project.moveStory(refStories.get(2), project.states.get(1), 1.0d);
+    	project.save();
+    	assertLaneSizes(project, 2, 2, 1);
+    	project.deleteStory(refStories.get(3));
+    	project.save();
+    	assertThat(project.stories.size(), is(4));
+    	assertLaneSizes(project, 1, 2, 1);
     }
 
 }

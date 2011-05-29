@@ -2,7 +2,9 @@ package models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
+import play.data.validation.Required;
 import play.db.jpa.Model;
 
 /**
@@ -18,10 +20,22 @@ import play.db.jpa.Model;
 @Entity
 public class State extends Model {
 	
+	// A state is always associated with a project
+	@Required 
+	@ManyToOne(optional = false) 
+	protected Project project;
+	
 	@Column(nullable=false)
 	public String name, description;
 	
-	public State(String name, String description) {
+	/**
+	 * States are always managed through the Project API
+	 * @param project
+	 * @param name
+	 * @param description
+	 */
+	protected State(Project project, String name, String description) {
+		this.project = project;
 		this.name = name;
 		this.description = description;
 	}

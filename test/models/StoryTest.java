@@ -1,10 +1,11 @@
 package models;
+
+import static models.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
+
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
-
-import play.Logger;
 
 public class StoryTest extends BasicModelTest {
 	
@@ -15,7 +16,7 @@ public class StoryTest extends BasicModelTest {
     	
     	Project project = getDefaultProject();
     	Story story = project.newStory(title, getDefaultUser());
-    	assertNotNull(story);
+    	assertThat(story, notNullValue());
     	story.description = description;
     	assertThat(story.project, is(getDefaultProject()));
     	story.save();
@@ -27,10 +28,10 @@ public class StoryTest extends BasicModelTest {
     	List<Story> stories = Story.findAll();
     	assertThat(1, is(stories.size()));
     	story = stories.get(0);
-    	assertNotNull(story);
+    	assertThat(story, notNullValue());
     	assertThat(title, is(story.title));
     	assertThat(description, is(story.description));
-    	assertDateFresh(story.createdOn);
+    	assertThat(story.createdOn, is(recentDate()));
     	assertThat(getDefaultUser(), is(story.createdUser));
     	assertThat(getDefaultProject().states.get(0), is(story.state));
     }
