@@ -1,5 +1,5 @@
 User(foobar):
-  userName: foobar
+  name: Foo Bar
   password: password
   # password: 2082af01f009028965c6bb0b346b7a14
   emailAddress: foo@bar.com

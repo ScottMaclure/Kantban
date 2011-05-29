@@ -1,8 +1,6 @@
 package models;
 import java.util.List;
 
-import models.Task.TaskType;
-
 import org.junit.Test;
 
 public class ProjectTest extends BasicModelTest {
