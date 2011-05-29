@@ -23,7 +23,7 @@ public class State extends Model {
 	// A state is always associated with a project
 	@Required 
 	@ManyToOne(optional = false) 
-	protected Project project;
+	public Project project;
 	
 	@Column(nullable=false)
 	public String name, description;

@@ -17,7 +17,7 @@ public class Task extends AuditedModel {
 	// A task is always added to a story
 	@Required 
 	@ManyToOne(optional = false)
-	private Story story;
+	public Story story;
 	
 	@Column(nullable = false)
 	public String title;

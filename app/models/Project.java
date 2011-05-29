@@ -43,26 +43,34 @@ public class Project extends AuditedModel {
 		Proposed, Started, Finished, Closed
 	}
 	
-	public Project(@Nonnull String title, @Nonnull User createdUser) {
-		this(title, null, createdUser);
-	}
-	
-	public Project(@Nonnull String title, @Nullable String description, @Nonnull User createdUser) {
-		super(createdUser);
-		
-		this.title = title;
-		this.description = description;
-		this.status = ProjectStatus.Proposed;
-		
-		this.stories = new ArrayList<Story>();
-		
-		// Create a new default list of states
+	private void setDefaults() {
+		status = ProjectStatus.Proposed;
+		stories = new ArrayList<Story>();
 		states = new ArrayList();
 		states.add(new State(this, "Sandbox", "Stories that are not ready to be worked on yet."));
 		states.add(new State(this, "Backlog", "Stories that have been prioritised and estimated."));
 		states.add(new State(this, "In Progress", "Stories that are actively being worked on."));
 		states.add(new State(this, "Completed", "Stories that have been finished."));
 		states.add(new State(this, "Archive", "Stories that are no longer of interest."));
+	}
+	
+	// Do not use
+	@SuppressWarnings("unused")
+	private Project() {
+		super();
+		setDefaults();
+	}
+	
+	public Project(@Nonnull String title, @Nonnull User createdUser) {
+		this(title, null, createdUser);
+	}
+	
+	public Project(@Nonnull String title, @Nullable String description, @Nonnull User createdUser) {
+		super(createdUser);
+		setDefaults();
+		this.title = title;
+		this.description = description;
+		this.status = ProjectStatus.Proposed;
 	}
 	
 	/**

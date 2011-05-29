@@ -17,7 +17,7 @@ public class Comment extends AuditedModel {
 	// A comment is always made on a story
 	@Required 
 	@ManyToOne(optional = false)
-	private Story story;
+	public Story story;
 
 	public String text;
 	// TODO add attachment

@@ -20,9 +20,10 @@ import play.db.jpa.Model;
 public class Story extends AuditedModel {
 	
 	// A story has to be in a project
+	// This should be protected
 	@Required 
 	@ManyToOne(optional = false) 
-	protected Project project;
+	public Project project;
 	
 	@Required 
 	@Column(nullable = false)
@@ -36,7 +37,7 @@ public class Story extends AuditedModel {
 	 */
 	public Double rank;
 	
-	@ManyToOne(optional = false, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST})
 	public State state;
 	
 	@OneToMany(mappedBy = "story")
@@ -47,7 +48,7 @@ public class Story extends AuditedModel {
 	
     @ManyToMany(cascade=CascadeType.PERSIST)
     public Set<Tag> tags;
-	
+    
 	/**
 	 * Create a new story
 	 * <p>
@@ -87,5 +88,9 @@ public class Story extends AuditedModel {
 		Task task = new Task(this, title, createdUser);
 		tasks.add(task);
 		return task;
+	}
+	
+	public State getState() {
+		return state != null ? state : project.states.get(0);
 	}
 }

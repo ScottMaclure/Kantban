@@ -1,6 +1,62 @@
-User(foobar):
-  name: Foo Bar
-  password: password
-  # password: 2082af01f009028965c6bb0b346b7a14
-  emailAddress: foo@bar.com
-  active: true
+User(owner):
+    name: Project Owner
+    password: password
+    # password: 2082af01f009028965c6bb0b346b7a14
+    emailAddress: owner@project.com
+    active: true
+
+# Project 1 setup
+Project(project1):
+    title: Project 1
+    description: This is the first project.
+    createdUser: owner
+
+State(state1):  
+    project: project1
+    name: "Sandbox" 
+    description: "Stories that are not ready to be worked on yet."
+State(state2):
+    project: project1
+    name: "Backlog" 
+    description: "Stories that have been prioritised and estimated."
+State(state3):
+    project: project1
+    name: "In Progress"
+    description: "Stories that are actively being worked on."
+State(state4):
+    project: project1
+    name: "Completed"
+    description: "Stories that have been finished."
+State(state5):
+    project: project1
+    name: "Archive"
+    description: "Stories that are no longer of interest."
+
+Story(story1-1):
+    project: project1
+    title: Story 1
+    createdUser: owner
+    state: state2
+Comment(comment1):
+    story: story1-1
+    title: This is a comment
+    createdUser: owner
+Task(task1):
+    story: story1-1
+    title: Do this task!
+    description: This is a task that needs to be done
+    createdUser: owner
+Story(story1-2):
+    project: project1
+    title: Story 2
+    createdUser: owner
+    states: state3
+Story(story1-3):
+    project: project1
+    title: Story 3
+    createdUser: owner
+Story(story1-4):
+    project: project1
+    title: Story 4
+    createdUser: owner
+    states: state5
