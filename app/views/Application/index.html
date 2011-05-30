@@ -1,4 +1,8 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-#{welcome /}
+<ul class="projects">
+#{list items:projects, as:'project'}
+  <li class="project"><a href="@{Application.project(project.id)}">${project.title}</a></li>
+#{/list}
+</ul>

@@ -1,13 +1,23 @@
 package controllers;
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import models.Project;
 import play.mvc.Controller;
-import play.mvc.With;
 
 //@With(Secure.class)
 public class Application extends Controller {
 
     public static void index() {
-        render();
+    	List<Project> projects = Project.all().fetch();
+        render(projects);
+    }
+    
+    public static void project(@Nonnull Long id) {
+    	Project project = Project.findById(id);
+    	render(project);
     }
 
 }

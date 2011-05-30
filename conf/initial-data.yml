@@ -1,7 +1,6 @@
 User(owner):
     name: Project Owner
     password: password
-    # password: 2082af01f009028965c6bb0b346b7a14
     emailAddress: owner@project.com
     active: true
 
@@ -60,3 +59,5 @@ Story(story1-4):
     title: Story 4
     createdUser: owner
     states: state5
+
+    

@@ -54,12 +54,12 @@ public class Project extends AuditedModel {
 		states.add(new State(this, "Archive", "Stories that are no longer of interest."));
 	}
 	
-	// Do not use
-	@SuppressWarnings("unused")
-	private Project() {
-		super();
-		setDefaults();
-	}
+//	// Do not use
+//	@SuppressWarnings("unused")
+//	private Project() {
+//		super();
+//		setDefaults();
+//	}
 	
 	public Project(@Nonnull String title, @Nonnull User createdUser) {
 		this(title, null, createdUser);

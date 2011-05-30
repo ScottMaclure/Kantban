@@ -1,0 +1,13 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<section class="project">
+	<h1>${project.title}</h1>
+	<p>${project.description}</p>
+	
+	<ul class="states">
+	#{list items:project.states, as:'state'}
+	    <li>${state.name}</li>
+	#{/list}
+	</ul>
+</section>
