@@ -1,13 +1,29 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
+%{
+    laneWidth = Math.round(1000/(project.states.size() - 2))/10
+}%
+
 <section class="project">
 	<h1>${project.title}</h1>
 	<p>${project.description}</p>
 	
-	<ul class="states">
-	#{list items:project.states, as:'state'}
-	    <li>${state.name}</li>
-	#{/list}
-	</ul>
+	<div id="swim-lanes">
+		<div id="backlog-lane">${project.states[0].name}</div>
+		<div id="middle-lanes">
+			<table>
+			<tbody>
+			<tr>
+			#{list items:project.states[1..-2], as:'state'}
+                <td id="state-${state.id}" class="lane" style="width:${laneWidth}%">
+                    <div class="lane-header">${state.name}</div>
+			    </td>
+			#{/list}
+			</tr>
+			</tbody>
+		</table>
+		</div>
+	    <div id="archive-lane">${project.states[-1].name}</div>
+	</div>
 </section>

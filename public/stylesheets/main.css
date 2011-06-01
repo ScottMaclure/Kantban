@@ -1,0 +1,28 @@
+body {
+	font-size:100%;
+    font-family:Tahoma,Arial,Verdana,sans-serif;
+	color:#000;
+	margin:0;
+	padding:0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+#middle-lanes table {
+	width: 100%;
+	height: 513px;
+}
+
+#middle-lanes .lane {
+	border-left: 2px solid #BBB;
+	border-right: 2px solid #BBB;
+	vertical-align: top;
+}
+
+#middle-lanes .lane-header {
+	font-size: 130%;
+    padding: 6px 6px 0 6px;
+}

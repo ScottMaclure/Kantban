@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import models.Project;
+import models.Story;
 import play.mvc.Controller;
 
 //@With(Secure.class)
@@ -18,6 +19,11 @@ public class Application extends Controller {
     public static void project(@Nonnull Long id) {
     	Project project = Project.findById(id);
     	render(project);
+    }
+
+    public static void story(@Nonnull Long id) {
+    	Story story = Story.findById(id);
+    	render(story);
     }
 
 }
