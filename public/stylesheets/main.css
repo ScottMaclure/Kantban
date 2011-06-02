@@ -13,6 +13,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	background: transparent;
 }
 
+/* Provide some defaults and tools */
+
 a {
 	text-decoration: none;
 }
@@ -28,37 +30,29 @@ body {
 	clear: both;
 }
 
-table {
-	border-collapse: collapse;
-}
-
-nav {
-	display: block;
-	width: 100%;	
-}
+/* Navigation */
 
 nav ul {
-	height: 3em;
-	width: 100%;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#000)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #ccc,  #000); /* for firefox 3.6+ */
+    padding: .6em 0 .6em 0;
 /*     border-radius: 2em; */
 /*     -webkit-border-radius: 2em; */
 }
 
 nav li {
-	display: block;
-	float: left;
-    text-align: center;
-    padding: .7em .5em .7em .5em;
+	display: inline;
 }
 
 nav li a {
 	color: white;
 	font-weight: normal;
 	font-size: 1.2em;
+	padding: 0 0 0 1.5em;
 }
+
+/* Board */
 
 #middle-lanes table {
 	width: 100%;
@@ -66,8 +60,8 @@ nav li a {
 }
 
 .lane {
-	border-left: 2px solid #bbb;
-	border-right: 2px solid #bbb;
+	border-left: 1px solid #bbb;
+	border-right: 1px solid #bbb;
 	vertical-align: top;
 	
 	padding: 8px;
@@ -77,10 +71,12 @@ nav li a {
 	display: none;
 }
 
-.lane-header {
+.lane-header { 
 	font-size: 1.3em;
     padding: 0 6px 6px 6px;
 }
+
+/* Story cards */
 
 .story {
 	list-style: none;
@@ -130,7 +126,7 @@ nav li a {
 	padding: .5em;
 }
 
-/* Story colour schemes */
+/* Story card colour schemes */
 
 .grey {
     background-color: #eee;
