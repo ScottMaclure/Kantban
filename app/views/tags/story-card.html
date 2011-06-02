@@ -1,0 +1,17 @@
+*{ stupid underscores }*
+%{ story = _story }%
+<div class="story-header">
+    <div class="story-id">
+        <a class="story-link" href="@{Application.story(story.id)}" title="Click for story details">${story.id}</a>
+    </div>
+    <div class="story-owner">
+        <span class="story-owner-name">${story.owner ? story.owner.name : 'Unassigned'}</span>
+        #{if story.owner}
+        <img class="story-owner-avatar" src="http://www.gravatar.com/avatar/${story.owner.gravatarId}?s=24&d=mm&r=pg" />
+        #{/if}
+    </div>
+</div>
+<div class="story-text">
+<p>${story.title}</p>
+<p>${story.description}</p> *{ FIXME add formatting }*
+</div>

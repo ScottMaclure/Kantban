@@ -4,10 +4,10 @@ import javax.annotation.Nonnull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import play.Logger;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
+
 import play.db.jpa.Model;
-import utils.PasswordUtil;
-import exceptions.ServerException;
 
 @Entity
 public class User extends Model {
@@ -40,20 +40,17 @@ public class User extends Model {
         return find("byEmailAddressAndPassword", email, hashPassword(password)).first();
     }
 
+    public String getGravatarId() {
+    	return DigestUtils.md5Hex(StringUtils.trim(emailAddress));
+    }
+
     @Override
     public String toString() {
         return name != null ? name : "" + " <" + emailAddress + ">";
     }
     
     private static String hashPassword(String password) {
-    	try {
-    		password = PasswordUtil.hashPassword(password, PASSWORD_SALT);
-    	}
-    	catch (ServerException e) {
-    		// This really should never happen
-    		Logger.error("Something is seriously odd", e);
-    		throw new RuntimeException("Caught ServerException that should not happen", e);
-    	}
-    	return password;
+    	return DigestUtils.md5Hex(PASSWORD_SALT + password);
     }
+    
 }

@@ -32,6 +32,9 @@ public class Story extends AuditedModel {
 	@Lob
 	public String details;
 	
+	@ManyToOne(optional = true)
+	public User owner;
+	
 	/**
 	 * Rank is used to order stories relative to each other.
 	 */
@@ -48,6 +51,10 @@ public class Story extends AuditedModel {
 	
     @ManyToMany(cascade=CascadeType.PERSIST)
     public Set<Tag> tags;
+    
+    // FIXME
+    //@Column(nullable = false)
+    public String colour;
     
 	/**
 	 * Create a new story
@@ -92,5 +99,9 @@ public class Story extends AuditedModel {
 	
 	public State getState() {
 		return state != null ? state : project.states.get(0);
+	}
+	
+	public String getColour() {
+		return colour != null ? colour : "grey";
 	}
 }

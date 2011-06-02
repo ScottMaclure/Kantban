@@ -24,6 +24,11 @@ public class UserTest extends BasicModelTest {
     	
     	user = User.connect("foo@bar.com", "password");
     	assertThat(user, notNullValue());
+    	
+    	assertThat(user.getGravatarId(), is("f3ada405ce890b6f8204094deb12d8a8"));
+    	
+    	// Note -- fix this when updating the salt
+    	assertThat(user.password, is("86c7898ce1a826eb53076699877a6eda"));
     }
 
 }

@@ -3,6 +3,21 @@ User(owner):
     password: password
     emailAddress: owner@project.com
     active: true
+User(dev1):
+    name: Developer One
+    password: password
+    emailAddress: dev1@project.com
+    active: true
+User(dev2):
+    name: Developer Two
+    password: password
+    emailAddress: dev2@project.com
+    active: true
+User(dev99):
+    name: Developer Gone
+    password: password
+    emailAddress: dev99@project.com
+    active: false
 
 # Project 1 setup
 Project(project1):
@@ -35,7 +50,9 @@ Story(story1-1):
     project: project1
     title: Story 1
     createdUser: owner
+    owner: owner
     state: state2
+    colour: red
 Comment(comment1):
     story: story1-1
     title: This is a comment
@@ -49,15 +66,23 @@ Story(story1-2):
     project: project1
     title: Story 2
     createdUser: owner
-    states: state3
+    state: state3
+    owner: owner
 Story(story1-3):
     project: project1
     title: Story 3
     createdUser: owner
+    owner: dev2
 Story(story1-4):
     project: project1
     title: Story 4
     createdUser: owner
-    states: state5
+    state: state5
+    owner: dev1
+Story(story1-5):
+    project: project1
+    title: Story 5
+    createdUser: owner
+    state: state2
 
     
