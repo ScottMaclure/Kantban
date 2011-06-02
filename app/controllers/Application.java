@@ -16,7 +16,7 @@ public class Application extends Controller {
         render(projects);
     }
     
-    public static void project(@Nonnull Long id) {
+    public static void board(@Nonnull Long id) {
     	Project project = Project.findById(id);
     	render(project);
     }

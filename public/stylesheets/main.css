@@ -13,14 +13,51 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	background: transparent;
 }
 
+a {
+	text-decoration: none;
+}
+
 body {
-	font-size:100%;
-    font-family:Tahoma,Arial,Verdana,sans-serif;
-	color:#000;
+	font-size: 100%;
+    font-family: Tahoma,Arial,Verdana,sans-serif;
+	color: #000;
+}
+
+.clear {
+	float: none;
+	clear: both;
 }
 
 table {
 	border-collapse: collapse;
+}
+
+nav {
+	display: block;
+	width: 100%;	
+}
+
+nav ul {
+	height: 3em;
+	width: 100%;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#000)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ccc,  #000); /* for firefox 3.6+ */
+/*     border-radius: 2em; */
+/*     -webkit-border-radius: 2em; */
+}
+
+nav li {
+	display: block;
+	float: left;
+    text-align: center;
+    padding: .7em .5em .7em .5em;
+}
+
+nav li a {
+	color: white;
+	font-weight: normal;
+	font-size: 1.2em;
 }
 
 #middle-lanes table {
@@ -36,9 +73,13 @@ table {
 	padding: 8px;
 }
 
+#backlog-lane, #archive-lane {
+	display: none;
+}
+
 .lane-header {
 	font-size: 1.3em;
-    padding: 6px 6px 0 6px;
+    padding: 0 6px 6px 6px;
 }
 
 .story {
@@ -59,7 +100,6 @@ table {
 .story-link {
 	padding-left: .5em;
 	padding-right: .25em;
-	text-decoration: none;
 	color: black;
 	line-height: 24px;
 }

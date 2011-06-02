@@ -5,7 +5,8 @@
 # Home page
 GET     /                                       Application.index
 
-GET     /project/{id}                           Application.project
+GET     /board/{id}                             Application.board
+GET     /project/{id}                           Application.board
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

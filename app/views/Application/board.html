@@ -1,16 +1,11 @@
-#{extends 'main.html' /}
+#{extends 'project-page.html' /}
 #{set title:'Home' /}
 
 %{
     laneWidth = Math.round(1000/(project.states.size() - 2))/10
 }%
 
-<span>This is some text</span><img src="//" />
-
 <section class="project">
-	<h1>${project.title}</h1>
-	<p>${project.description}</p>
-	
 	<div id="swim-lanes">
 		<div id="backlog-lane">${project.states[0].name}</div>
 		<div id="middle-lanes">
