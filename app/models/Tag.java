@@ -12,7 +12,8 @@ import play.db.jpa.Model;
 @Entity
 public class Tag extends Model implements Comparable<Tag> {
 	
-	@Required @Column(nullable = false)
+	@Required 
+	@Column(nullable = false)
 	public String name;
 
     public Tag(String name) {

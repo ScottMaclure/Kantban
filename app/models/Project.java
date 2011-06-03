@@ -10,6 +10,8 @@ import javax.annotation.Nullable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 
 import play.data.validation.Required;
@@ -38,6 +40,7 @@ public class Project extends AuditedModel {
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	List<Story> stories; 
 	
+	@Enumerated(EnumType.STRING)
 	public ProjectStatus status;
 	enum ProjectStatus {
 		Proposed, Started, Finished, Closed
@@ -53,13 +56,6 @@ public class Project extends AuditedModel {
 		states.add(new State(this, "Completed", "Stories that have been finished."));
 		states.add(new State(this, "Archive", "Stories that are no longer of interest."));
 	}
-	
-//	// Do not use
-//	@SuppressWarnings("unused")
-//	private Project() {
-//		super();
-//		setDefaults();
-//	}
 	
 	public Project(@Nonnull String title, @Nonnull User createdUser) {
 		this(title, null, createdUser);
@@ -136,7 +132,7 @@ public class Project extends AuditedModel {
 	 * This can only happen if it is already attached to another project.
 	 * 
 	 * @param title
-	 * @param createdUser
+	 * @param createdBy
 	 */
 	protected void addStory(@Nonnull Story story, @Nullable State state) {
 		if (story.project != this) {

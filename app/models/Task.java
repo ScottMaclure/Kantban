@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -24,8 +25,10 @@ public class Task extends AuditedModel {
 	public String description;
 
 	@ManyToOne(optional = true)
+	@JoinColumn(name = "assigned_user")
 	public User assignedUser;
 	
+	@Column(name = "estimated_time")
 	public Integer estimatedTime; // minutes
 	public Integer actualTime; // minutes
 

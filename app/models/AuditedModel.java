@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
@@ -10,8 +11,11 @@ import play.db.jpa.Model;
 
 @MappedSuperclass
 public abstract class AuditedModel extends Model {
-	@Column(nullable = false)
+
+	@Column(name = "created_on", nullable = false)
 	public Date createdOn;
+
+	@JoinColumn(name = "created_user")
 	@ManyToOne(optional = false)
 	public User createdUser;
 	

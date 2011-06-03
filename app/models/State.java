@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.apache.log4j.Logger;
 
@@ -34,14 +35,15 @@ public class State extends Model {
 	@ManyToOne(optional = false) 
 	public Project project;
 	
-	@Column(nullable=false)
+	@Column(nullable = false)
 	public String name, description;
 	
 	@OneToMany(mappedBy = "state")
+	@OrderBy("rank")
 	public List<Story> stories;
 	
 	/**
-	 * States are always managed through the Project API
+	 * A state gets created as part of a project
 	 * @param project
 	 * @param name
 	 * @param description

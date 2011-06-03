@@ -15,8 +15,11 @@ public class User extends Model {
 	// FIXME Make this configurable
 	static final String PASSWORD_SALT = "Kantban is cool!";
 	
-	@Column(nullable=false)
-	public String emailAddress, password;
+	@Column(nullable = false, name = "email_address")
+	public String emailAddress;
+	@Column(nullable = false)
+	public String password;
+	@Column(nullable = false)
 	public String name;
 	
 	public boolean active;
