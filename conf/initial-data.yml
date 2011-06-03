@@ -85,5 +85,16 @@ Story(story1-5):
     title: Story 5
     createdUser: owner
     state: state2
+Story(story-1-6):
+    project: project1
+    title: Story 6
+    createdUser: owner
+    state: state2
+Story(story-1-7):
+    project: project1
+    title: Story 7
+    createdUser: owner
+    state: state2
+    colour: red
 
     

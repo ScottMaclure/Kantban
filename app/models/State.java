@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.apache.log4j.Logger;
+
+import controllers.Application;
+
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -23,6 +27,8 @@ import play.db.jpa.Model;
 @Entity
 public class State extends Model {
 	
+	private final static Logger log = Logger.getLogger(State.class);
+
 	// A state is always associated with a project
 	@Required 
 	@ManyToOne(optional = false) 
@@ -32,7 +38,7 @@ public class State extends Model {
 	public String name, description;
 	
 	@OneToMany(mappedBy = "state")
-	List<Story> stories;
+	public List<Story> stories;
 	
 	/**
 	 * States are always managed through the Project API
@@ -44,6 +50,29 @@ public class State extends Model {
 		this.project = project;
 		this.name = name;
 		this.description = description;
+	}
+
+	/**
+	 * Re-rank a story in this state
+	 * 
+	 * @param index the new index of the story
+	 */
+	public boolean moveStory(Story story, int index) {
+		boolean found = (story.state != this) ?
+			stories.remove(story) :
+			story.state.stories.remove(story);
+		
+		if (found) {
+			story.state = this;
+			this.project.addStory(story, null);
+			stories.add(index, story);
+			log.debug("Moved story " + story.id + " to position " + index);
+			return true;
+		}
+		else {
+			log.warn("Cannot move " + story.id + " to position " + index);
+			return false;
+		}
 	}
 
 }

@@ -123,6 +123,7 @@ public class Project extends AuditedModel {
 	 * @param createdUser
 	 * @return
 	 */
+	@Deprecated
 	public Story newStory(@Nonnull String title, User createdUser) {
 		Story story = new Story(this, title, createdUser);
 		stories.add(story);
@@ -137,13 +138,15 @@ public class Project extends AuditedModel {
 	 * @param title
 	 * @param createdUser
 	 */
-	public void addStory(@Nonnull Story story, @Nullable State state) {
+	protected void addStory(@Nonnull Story story, @Nullable State state) {
 		if (story.project != this) {
 			if (story.project != null) {
 				story.project.removeStory(story);
 			}
 			story.project = this;
-			story.state = state != null ? state : states.get(0);
+			if (!this.states.contains(story.state)) {
+				story.state = state != null ? state : states.get(0);
+			}
 			stories.add(story);
 		}
 	}
@@ -170,6 +173,7 @@ public class Project extends AuditedModel {
 	 * @param state The target state for the story
 	 * @param rank The target rank for the story
 	 */
+	@Deprecated
 	protected void moveStory(@Nonnull Story story, @Nonnull State state, double rank) {
 		if (story.project != this) {
 			if (story.project != null) {
@@ -224,6 +228,7 @@ public class Project extends AuditedModel {
 	 * @param story
 	 * @param referenceStory
 	 */
+	@Deprecated
 	public void moveStoryBefore(@Nonnull Story story, @Nonnull Story referenceStory) {
 		List<Story> list = getSwimlane(referenceStory.state);
 	}
@@ -234,6 +239,7 @@ public class Project extends AuditedModel {
 	 * @param state - The state representing the swimlane
 	 * @return The list, ordered by rank
 	 */
+	@Deprecated
 	public List<Story> getSwimlane(State state) {
 		List<Story> list = Story.find("project = ? AND state = ? ORDER BY rank", this, state).fetch();
 		return list;
