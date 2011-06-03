@@ -49,6 +49,7 @@ State(state5):
 Story(story1-1):
     project: project1
     title: Story 1
+    description: This is the description of Story 1.
     createdUser: owner
     owner: owner
     state: state2

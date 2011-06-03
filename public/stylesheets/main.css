@@ -32,6 +32,12 @@ body {
 
 /* Navigation */
 
+nav {
+    color: white;
+    font-weight: normal;
+    font-size: 1.2em;
+}
+
 nav ul {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#000)); /* for webkit browsers */
@@ -46,10 +52,17 @@ nav li {
 }
 
 nav li a {
-	color: white;
-	font-weight: normal;
-	font-size: 1.2em;
+    color: inherit;
 	padding: 0 0 0 1.5em;
+}
+
+nav .project-selector {
+	width: 200px;
+	display: inline;
+}
+
+nav .project-selector li {
+    padding: 0 0 0 1.5em; 
 }
 
 /* Board */
@@ -85,6 +98,11 @@ nav li a {
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
 	font-size: 0.75em;
+}
+
+.story-list {
+	height: auto;
+	min-height: 500px;
 }
 
 .story-header {
@@ -147,4 +165,3 @@ nav li a {
 	background-color: #fbb;
     border-color: #faa;
 }
-

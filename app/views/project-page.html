@@ -19,7 +19,11 @@
     
         <nav>
           <ul>
-            <li class="project-selector"></li>
+            <li>
+              <ul class="project-selector">
+                <li>${project.title}</li>
+              </ul>
+            </li>
             <li><a href="@{Application.index()}">Home</a></li>
             <li><a href="@{Application.board(project?.id)}">Board</a></li>
           </ul>
