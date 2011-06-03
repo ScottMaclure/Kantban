@@ -1,44 +1,12 @@
-#{extends 'project-page.html' /}
+#{extends 'main.html' /}
+#{set pageType:'project' /}
 #{set title:'Home' /}
-
+#{set 'moreScripts'}
+    #{script 'board.js' /}
+#{/set}
 %{
     laneWidth = Math.round(1000/(project.states.size() - 2))/10
 }%
-
-<script> 
-    $(function() {
-  	
-    	/*        
-        $(".story").draggable({
-            revert: "invalid",
-            containment: $( "#swim-lanes" ).length ? "#swim-lanes" : "document",
-            distance: 5,
-            handle: ".story-header",
-            connectToSortable: ".story-list",
-            stack: ".story",
-            //helper: "clone",
-        });
-    	$(".story-list").droppable({
-            accept: ".story",
-            // hoverClass: "ui-state-active",
-            drop: function(event, ui) {
-                $(this).addClass( "ui-state-highlight" );
-            }
-        })
-*/
-        $(".story-list").sortable({
-            revert: true,
-            handle: ".story-header",
-            placeholder: "story ui-state-highlight",
-            forcePlaceholderSize: true,
-            tolerance: 'pointer',
-            scroll: true,
-            connectWith: ".story-list",
-            containment: $( "#swim-lanes" ).length ? "#swim-lanes" : "document",
-        });
-        $(".story-list").disableSelection();
-    });
-</script> 
 <section class="project">
 	<div id="swim-lanes">
 		<div id="backlog-lane">${project.states[0].name}</div>
@@ -47,11 +15,13 @@
 			<tbody>
 			<tr>
 			#{list items:project.states[1..-2], as:'state'}
-                <td id="state-${state.id}" class="lane" style="width:${laneWidth}%">
+                <td class="lane" style="width:${laneWidth}%">
                     <div class="lane-header">${state.name}</div>
-                    <ul class="story-list ui-sortable">
+                    <ul id="state-${state.id}" class="story-list ui-sortable">
                     #{list items:state.stories, as:'story'}
-                        <li class="story ${story.colour}">#{story-card story:story /}</li>
+                        <li id="story-${story.id}" class="story ${story.colour}">
+                            #{story-card story:story /}
+                        </li>
                     #{/list}
                     </ul>
 			    </td>
