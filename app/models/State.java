@@ -1,7 +1,9 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -48,12 +50,24 @@ public class State extends Model {
 	 * @param name
 	 * @param description
 	 */
-	protected State(Project project, String name, String description) {
+	protected State(@Nonnull Project project, @Nonnull String name, @Nonnull String description) {
 		this.project = project;
 		this.name = name;
 		this.description = description;
+		stories = new ArrayList<Story>();
+	}
+	
+	public Story newStory(@Nonnull String title, @Nonnull User createdUser) {
+		Story story = new Story(this, title, createdUser);
+		stories.add(story);
+		return story;
 	}
 
+	public void addStory(@Nonnull Story story) {
+		story.state = this;
+		stories.add(story);
+	}
+	
 	/**
 	 * Re-rank a story in this state
 	 * 
@@ -66,7 +80,6 @@ public class State extends Model {
 		
 		if (found) {
 			story.state = this;
-			this.project.addStory(story, null);
 			stories.add(index, story);
 			log.debug("Moved story " + story.id + " to position " + index);
 			return true;

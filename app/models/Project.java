@@ -32,14 +32,6 @@ public class Project extends AuditedModel {
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	public List<State> states;
 	
-	/**
-	 * A list of all the stories associated with this project.
-	 * <p>
-	 * This relationship is owned by the Story class.
-	 */
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-	List<Story> stories; 
-	
 	@Enumerated(EnumType.STRING)
 	public ProjectStatus status;
 	enum ProjectStatus {
@@ -48,7 +40,6 @@ public class Project extends AuditedModel {
 	
 	private void setDefaults() {
 		status = ProjectStatus.Proposed;
-		stories = new ArrayList<Story>();
 		states = new ArrayList();
 		states.add(new State(this, "Sandbox", "Stories that are not ready to be worked on yet."));
 		states.add(new State(this, "Backlog", "Stories that have been prioritised and estimated."));
@@ -102,83 +93,12 @@ public class Project extends AuditedModel {
 	public List<State> removeState(@Nonnull State state) {
 		int position = states.indexOf(state);
 		if (position >= 1 && position < states.size() - 1) {
-			for (Story story: stories) {
-				if (story.state.equals(state)) {
-					story.state = states.get(position - 1);
-				}
+			for (Story story: state.stories) {
+				story.state = states.get(position - 1);
 			}
 			states.remove(position);
 		}
 		return states;
-	}
-	
-	/**
-	 * Create a new story in this project.
-	 * 
-	 * @param title
-	 * @param createdUser
-	 * @return
-	 */
-	@Deprecated
-	public Story newStory(@Nonnull String title, User createdUser) {
-		Story story = new Story(this, title, createdUser);
-		stories.add(story);
-		return story;
-	}
-		
-	/**
-	 * Add an existing story to this project
-	 * <p>
-	 * This can only happen if it is already attached to another project.
-	 * 
-	 * @param title
-	 * @param createdBy
-	 */
-	protected void addStory(@Nonnull Story story, @Nullable State state) {
-		if (story.project != this) {
-			if (story.project != null) {
-				story.project.removeStory(story);
-			}
-			story.project = this;
-			if (!this.states.contains(story.state)) {
-				story.state = state != null ? state : states.get(0);
-			}
-			stories.add(story);
-		}
-	}
-	
-	private void removeStory(@Nonnull Story story) {
-		stories.remove(story);
-	}
-	
-	/**
-	 * Completely delete a story
-	 * @param story
-	 */
-	public void deleteStory(Story story) {
-		stories.remove(story);
-		story.delete();
-	}
-	
-	/**
-	 * Move a story to this project, with the given state and rank
-	 * <p>
-	 * If the story currently belongs to another project, it will be moved.
-	 * 
-	 * @param story The story to move
-	 * @param state The target state for the story
-	 * @param rank The target rank for the story
-	 */
-	@Deprecated
-	protected void moveStory(@Nonnull Story story, @Nonnull State state, double rank) {
-		if (story.project != this) {
-			if (story.project != null) {
-				story.project.removeStory(story);
-			}
-			story.project = this;
-		}
-		story.state = state;
-		story.rank = rank;
 	}
 	
 	/*
@@ -239,5 +159,9 @@ public class Project extends AuditedModel {
 	public List<Story> getSwimlane(State state) {
 		List<Story> list = Story.find("project = ? AND state = ? ORDER BY rank", this, state).fetch();
 		return list;
+	}
+	
+	public State defaultState() {
+		return states.get(0);
 	}
 }

@@ -23,7 +23,7 @@ public class Story extends AuditedModel {
 	// This should be protected
 	@Required 
 	@ManyToOne(optional = false) 
-	public Project project;
+	public State state;
 	
 	@Required 
 	@Column(nullable = false)
@@ -40,8 +40,6 @@ public class Story extends AuditedModel {
 	 */
 	public Double rank;
 	
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST})
-	public State state;
 	
 	@OneToMany(mappedBy = "story")
 	List<Task> tasks;
@@ -69,9 +67,8 @@ public class Story extends AuditedModel {
 	 * @param title
 	 * @param createdUser
 	 */
-	protected Story(@Nonnull Project project, @Nonnull State state, @Nonnull String title, @Nonnull User createdUser) {
+	protected Story(@Nonnull State state, @Nonnull String title, @Nonnull User createdUser) {
 		super(createdUser);
-		this.project = project;
 		this.title = title;
 		// TODO Check that state is in project
 		this.state = state;	
@@ -82,7 +79,7 @@ public class Story extends AuditedModel {
 	 * @see #Story(Project, State, String, User)
 	 */
 	protected Story(@Nonnull Project project, @Nonnull String title, @Nonnull User createdUser) {
-		this(project, project.states.get(0), title, createdUser);
+		this(project.states.get(0), title, createdUser);
 	}
 	
 	public Comment newComment(String text, User createdUser) {
@@ -95,10 +92,6 @@ public class Story extends AuditedModel {
 		Task task = new Task(this, title, createdUser);
 		tasks.add(task);
 		return task;
-	}
-	
-	public State getState() {
-		return state != null ? state : project.states.get(0);
 	}
 	
 	public String getColour() {

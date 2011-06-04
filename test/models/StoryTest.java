@@ -15,15 +15,16 @@ public class StoryTest extends BasicModelTest {
     	String description = "Some <a href=\"Link\">text</a> to go into this story";
     	
     	Project project = getDefaultProject();
-    	Story story = project.newStory(title, getDefaultUser());
+    	State state = project.defaultState();
+    	Story story = state.newStory(title, getDefaultUser());
     	assertThat(story, notNullValue());
     	story.description = description;
-    	assertThat(story.project, is(getDefaultProject()));
+    	assertThat(story.state.project, is(getDefaultProject()));
     	story.save();
     	
     	project = getDefaultProject();
-    	assertThat(project, is(story.project));
-    	assertThat(project.stories.size(), is(1));
+    	assertThat(project, is(story.state.project));
+    	assertThat(project.defaultState().stories.size(), is(1));
     	
     	List<Story> stories = Story.findAll();
     	assertThat(1, is(stories.size()));

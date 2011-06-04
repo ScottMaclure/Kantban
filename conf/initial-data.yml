@@ -25,7 +25,7 @@ Project(project1):
     description: This is the first project.
     createdUser: owner
 
-State(state1):  
+State(state1): 
     project: project1
     name: "Sandbox" 
     description: "Stories that are not ready to be worked on yet."
@@ -47,12 +47,11 @@ State(state5):
     description: "Stories that are no longer of interest."
 
 Story(story1-1):
-    project: project1
+    state: state2
     title: Story 1
     description: This is the description of Story 1.
     createdUser: owner
     owner: owner
-    state: state2
     colour: red
 Comment(comment1):
     story: story1-1
@@ -64,37 +63,32 @@ Task(task1):
     description: This is a task that needs to be done
     createdUser: owner
 Story(story1-2):
-    project: project1
+    state: state3
     title: Story 2
     createdUser: owner
-    state: state3
     owner: owner
 Story(story1-3):
-    project: project1
+    state: state1
     title: Story 3
     createdUser: owner
     owner: dev2
 Story(story1-4):
-    project: project1
+    state: state5
     title: Story 4
     createdUser: owner
-    state: state5
     owner: dev1
 Story(story1-5):
-    project: project1
+    state: state2
     title: Story 5
     createdUser: owner
-    state: state2
 Story(story-1-6):
-    project: project1
+    state: state2
     title: Story 6
     createdUser: owner
-    state: state2
 Story(story-1-7):
-    project: project1
+    state: state2
     title: Story 7
     createdUser: owner
-    state: state2
     colour: red
 
     

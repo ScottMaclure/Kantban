@@ -36,10 +36,12 @@ public abstract class BasicModelTest extends UnitTest {
     
     protected Story getDefaultStory() {
         Project project = getDefaultProject();
-        Story story = Story.find("byProjectAndTitle", project, "Default Story").first();
+        Story story = Story.find("byTitle", "Default Story").first();
         if (story == null) {
-            story = project.newStory("Default Story", getDefaultUser());
-            project.save();
+        	State state = project.states.get(0);
+        	assertThat(state, notNullValue());
+        	story = state.newStory("Default Story", getDefaultUser());
+            story.save();
         }
         return story;
     }
