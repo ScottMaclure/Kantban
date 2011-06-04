@@ -18,16 +18,18 @@ public class Ajax extends Controller {
 	 * @param StateId
 	 * @param index
 	 */
-	public static void moveStoryToState(Long storyId, Long targetStateId, Integer index) {
+	public static void moveStoryToState(Long storyId, Long stateId, Integer index) {
+		log.debug("moveStoryToState(" + storyId + ", " + stateId + ", " + index + ")");
 		ResponseMessage r = new ResponseMessage(false);
 		Story story = Story.findById(storyId);
-		State state = State.findById(targetStateId);
+		State state = State.findById(stateId);
 		if (story != null && state != null) {
 			state.stories.add(story);
 			r.setSuccess(state.moveStory(story, index));
+			state.save();
 		}
 		else {
-			r.addMessage("Could not find story " + storyId + " or state " + targetStateId);
+			r.addMessage("Could not find story " + storyId + " or state " + stateId);
 		}
 		renderJSON(r);
 	}
@@ -43,9 +45,10 @@ public class Ajax extends Controller {
 		log.debug("moveStory(" + storyId + ", " + index + ")");
 		ResponseMessage r = new ResponseMessage(false);
 		Story story = Story.findById(storyId);
-		State state = story.state;
 		if (story != null) {
+			State state = story.state;
 			r.setSuccess(state.moveStory(story, index));
+			state.save();
 		}
 		else {
 			r.addMessage("Could not find story " + storyId);

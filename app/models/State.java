@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -40,7 +41,7 @@ public class State extends Model {
 	@Column(nullable = false)
 	public String name, description;
 	
-	@OneToMany(mappedBy = "state")
+	@OneToMany(mappedBy = "state", cascade = CascadeType.PERSIST)
 	@OrderBy("rank")
 	public List<Story> stories;
 	
@@ -60,12 +61,14 @@ public class State extends Model {
 	public Story newStory(@Nonnull String title, @Nonnull User createdUser) {
 		Story story = new Story(this, title, createdUser);
 		stories.add(story);
+		rerankStories();
 		return story;
 	}
 
 	public void addStory(@Nonnull Story story) {
 		story.state = this;
 		stories.add(story);
+		rerankStories();
 	}
 	
 	/**
@@ -81,12 +84,22 @@ public class State extends Model {
 		if (found) {
 			story.state = this;
 			stories.add(index, story);
+			rerankStories();
 			log.debug("Moved story " + story.id + " to position " + index);
 			return true;
 		}
 		else {
 			log.warn("Cannot move " + story.id + " to position " + index);
 			return false;
+		}
+	}
+	
+	// TODO Can we make this only change ranks that need changing?
+	private void rerankStories() {
+		double rank = 10.0d;
+		for (Story story: stories) {
+			story.rank = rank;
+			rank += 10.0d;
 		}
 	}
 
