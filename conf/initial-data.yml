@@ -55,7 +55,7 @@ Story(story1-1):
     colour: red
 Comment(comment1):
     story: story1-1
-    title: This is a comment
+    text: This is a comment
     createdUser: owner
 Task(task1):
     story: story1-1

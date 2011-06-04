@@ -82,13 +82,13 @@ public class Story extends AuditedModel {
 		this(project.states.get(0), title, createdUser);
 	}
 	
-	public Comment newComment(String text, User createdUser) {
+	public Comment newComment(@Nonnull String text, @Nonnull User createdUser) {
 		Comment comment = new Comment(this, text, createdUser);
 		comments.add(comment);
 		return comment;
 	}
 	
-	public Task newTask(String title, User createdUser) {
+	public Task newTask(@Nonnull String title, @Nonnull User createdUser) {
 		Task task = new Task(this, title, createdUser);
 		tasks.add(task);
 		return task;

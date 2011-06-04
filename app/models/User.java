@@ -35,11 +35,11 @@ public class User extends Model {
 		this.active = true;
 	}
 	
-	public void setPassword(String password) {
+	public void setPassword(@Nonnull String password) {
 		this.password = hashPassword(password);
 	}
 	
-    public static User connect(String email, String password) {
+    public static User connect(@Nonnull String email, @Nonnull String password) {
         return find("byEmailAddressAndPassword", email, hashPassword(password)).first();
     }
 
@@ -52,7 +52,7 @@ public class User extends Model {
         return name != null ? name : "" + " <" + emailAddress + ">";
     }
     
-    private static String hashPassword(String password) {
+    private static String hashPassword(@Nonnull String password) {
     	return DigestUtils.md5Hex(PASSWORD_SALT + password);
     }
     

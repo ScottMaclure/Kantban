@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -40,13 +41,9 @@ public class Task extends AuditedModel {
 	 * @param type
 	 * @param createdUser
 	 */
-	protected Task(Story story, String title, User createdUser) {
+	protected Task(@Nonnull Story story, @Nonnull String title, @Nonnull User createdUser) {
 		super(createdUser);
 		this.story = story;
 		this.title = title;
-	}
-	
-	public Story getStory() {
-		return story;
 	}
 }

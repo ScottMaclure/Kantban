@@ -22,7 +22,7 @@ public class CommentTest extends BasicModelTest {
     	assertThat(comment.text, is(commentText));
     	assertThat(comment.createdOn, is(recentDate()));
     	assertThat(comment.createdUser, is(getDefaultUser()));
-    	assertThat(comment.getStory(), is(getDefaultStory()));
+    	assertThat(comment.story, is(getDefaultStory()));
     }
 
 }

@@ -73,7 +73,7 @@ public class State extends Model {
 	 * 
 	 * @param index the new index of the story
 	 */
-	public boolean moveStory(Story story, int index) {
+	public boolean moveStory(@Nonnull Story story, int index) {
 		boolean found = (story.state != this) ?
 			stories.remove(story) :
 			story.state.stories.remove(story);

@@ -2,6 +2,8 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class ResponseMessage {
 	private boolean success;
 	private List<String> messages;
@@ -21,7 +23,7 @@ public class ResponseMessage {
 	public List<String> getMessages() {
 		return messages;
 	}
-	public void addMessage(String message) {
+	public void addMessage(@Nonnull String message) {
 		messages.add(message);
 	}
 }

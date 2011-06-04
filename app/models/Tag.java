@@ -3,6 +3,7 @@ package models;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -28,7 +29,7 @@ public class Tag extends Model implements Comparable<Tag> {
         return name.compareTo(otherTag.name);
     }
  
-    public static Tag findOrCreateByName(String name) {
+    public static Tag findOrCreateByName(@Nonnull String name) {
         Tag tag = Tag.find("byName", name).first();
         if(tag == null) {
             tag = new Tag(name);
