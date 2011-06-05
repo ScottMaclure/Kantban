@@ -19,7 +19,6 @@ import play.db.jpa.Model;
 @Entity
 public class Story extends AuditedModel {
 	
-	// A story has to be in a project
 	// This should be protected
 	@Required 
 	@ManyToOne(optional = false) 
@@ -74,8 +73,8 @@ public class Story extends AuditedModel {
 	}
 
 	/**
-	 * Create a new storywith the default state
-	 * @see #Story(Project, State, String, User)
+	 * Create a new story with the default state
+	 * @see #Story(State, String, User)
 	 */
 	protected Story(@Nonnull Project project, @Nonnull String title, @Nonnull User createdUser) {
 		this(project.states.get(0), title, createdUser);

@@ -55,14 +55,20 @@ public class State extends Model {
 	 * @param project
 	 * @param name
 	 * @param description
+	 * @param limit
 	 */
-	protected State(@Nonnull Project project, @Nonnull String name, @Nonnull String description) {
+	protected State(@Nonnull Project project, @Nonnull String name, @Nonnull String description, Integer limit) {
 		this.project = project;
 		this.name = name;
 		this.description = description;
+		this.limit = limit;
 		stories = new ArrayList<Story>();
 	}
 	
+	protected State(@Nonnull Project project, @Nonnull String name, @Nonnull String description) {
+		this(project, name, description, null);
+	}
+
 	public Story newStory(@Nonnull String title, @Nonnull User createdUser) {
 		Story story = new Story(this, title, createdUser);
 		stories.add(story);

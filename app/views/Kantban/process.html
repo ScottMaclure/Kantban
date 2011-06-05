@@ -10,10 +10,13 @@
 <script>
 var routes = {
 	moveState: #{jsAction @Ajax.moveState(':state', ':index') /},
+    addState: #{jsAction @Ajax.newState(':project', ':name', ':description', ':limit') /},
+    deleteState: #{jsAction @Ajax.deleteState(':state') /}
 } 
 </script>
 <section>
-  <div class="menu">
+  <div id="menu">
+    <button id="state-create-button">Add State</button>
   </div>
   <ul id="state-list">
     <li id="state-${project.states[0].id}" class="state-item fixed">
@@ -28,4 +31,18 @@ var routes = {
       #{state-card state: project.states[-1] /}
      </li>
   </ul>
+  
+  <div id="state-create-form" title="Create new state" project-id="${project.id}"> 
+    <form> 
+    <fieldset> 
+        <label for="name">Name</label> 
+        <input type="text" name="name" id="name" /> 
+        <label for="description">Description</label> 
+        <input type="text" name="description" id="description" value="" /> 
+        <label for="limit">Limit</label> 
+        <input type="number" name="limit" id="limit" value="" /> 
+    </fieldset> 
+    </form> 
+</div> 
+  
 </section>

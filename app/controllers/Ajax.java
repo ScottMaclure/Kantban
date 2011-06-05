@@ -72,4 +72,35 @@ public class Ajax extends Controller {
 		}
 		renderJSON(r);
 	}
+	
+	public static void newState(Long projectId, String name, String description, Integer limit) {
+		log.debug("newState(" + projectId + ", " + name + ", " + description + ", " + limit + ")");
+		ResponseMessage r = new ResponseMessage(false);
+		Project project = Project.findById(projectId);
+		if (project != null) {
+			project.newState(name, description, limit);
+			project.save();
+			r.setSuccess(true);
+		}
+		else {
+			r.addMessage("Couldn't find project with id " + projectId);
+		}
+		renderJSON(r);
+	}
+	
+	public static void deleteState(Long stateId) {
+		log.debug("deleteState(" + stateId + ")");
+		ResponseMessage r = new ResponseMessage(false);
+		State state = State.findById(stateId);
+		if (state != null) {
+			Project project = state.project;
+			r.setSuccess(project.removeState(state));
+			project.save();
+			state.delete();
+		}
+		else {
+			r.addMessage("Could not find state " + stateId);
+		}
+		renderJSON(r);
+	}
 }

@@ -5,7 +5,7 @@ function log (level, message) {
 	}
 }
 
-function doAjax(url) {
+function doAjax(url, callback) {
 	log(1, "Call doAjax(" + url + ")");
 	$.getJSON(url, function(data) {
 		if (!data.success) {
@@ -13,7 +13,10 @@ function doAjax(url) {
 			alert("response: " + data.messages);
 		}
 		else {
-			log(2, "Success: doAjax(" + url + ")");		
+			log(2, "Success: doAjax(" + url + ")");
+		}
+		if (callback) {
+			callback(data.success);
 		}
 	});
 }

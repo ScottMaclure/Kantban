@@ -1,8 +1,6 @@
 package models;
 import static models.Matchers.recentDate;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 
 import java.util.List;
 
@@ -43,10 +41,11 @@ public class ProjectTest extends BasicModelTest {
     	assertThat(project.states.get(4).name, is("Archive"));
     	
     	// Try to insert a new state, and remove it
-    	project.addState(1, "Test state", "This is a test State");
+    	project.addState(1, "Test state", "This is a test State", null);
     	project.save();
     	project = Project.all().first();
     	assertThat(project.states.get(1).name, is("Test state"));
+    	assertThat(project.states.get(1).limit, is(nullValue()));
     	assertThat(project.states.get(1).description, is("This is a test State"));
        	assertThat(project.states.size(), is(6));
        	project.removeState(project.states.get(1));
@@ -56,13 +55,13 @@ public class ProjectTest extends BasicModelTest {
        	assertThat(project.states.size(), is(5));
        	
        	// Try to insert a new state at the start and observe it being at position 1
-    	project.addState(0, "Test state", "This is a test State");
+    	project.addState(0, "Test state", "This is a test State", null);
     	assertThat(project.states.get(0).name, is("Sandbox"));
     	assertThat(project.states.get(1).name, is("Test state"));
        	project.removeState(project.states.get(1));
 
        	// Try to insert a new state at the end and observe it being at position size() - 2
-    	project.addState(5, "Test state", "This is a test State");
+    	project.addState(5, "Test state", "This is a test State", null);
     	assertThat(project.states.get(5).name, is("Archive"));
     	assertThat(project.states.get(4).name, is("Test state"));
        	project.removeState(project.states.get(3));
@@ -83,9 +82,10 @@ public class ProjectTest extends BasicModelTest {
     	Project project = getDefaultProject();
     	Story story = project.defaultState().newStory("Story 1", getDefaultUser());
     	assertThat(project.defaultState().stories.size(), is(1));
-    	project.addState(3, "Temp state", "Just a temporary state");
+    	project.addState(3, "Temp state", "Just a temporary state", 12);
     	project.save();
     	assertThat(project.states.get(3).name, is("Temp state"));
+    	assertThat(project.states.get(3).limit, is(12));
     	State state = project.states.get(3);
     	state.addStory(story);
     	state.save();

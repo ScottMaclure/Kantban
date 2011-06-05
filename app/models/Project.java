@@ -15,11 +15,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
+import org.apache.log4j.Logger;
+
 import play.data.validation.Required;
 
 @Entity
 public class Project extends AuditedModel {
 	
+	private final static Logger log = Logger.getLogger(State.class);
+
 	@Required 
 	@Column(nullable = false)
 	public String title;
@@ -70,6 +74,11 @@ public class Project extends AuditedModel {
 			rank += 10.0d;
 		}
 	}
+	
+	private void addState(int position, @Nonnull State state) {
+		states.add(position, state);
+		rerankStates();
+	}
 
 	/**
 	 * Add a new state in the given position. 
@@ -78,20 +87,24 @@ public class Project extends AuditedModel {
 	 * be adjusted to avoid them.
 	 * 
 	 * @param position
-	 * @param title
+	 * @param name
 	 * @param description
 	 * @return the new list of states.
 	 */
-	public List<State> addState(int position, @Nonnull String title, @Nonnull String description) {
+	public List<State> addState(int position, @Nonnull String name, @Nonnull String description, Integer limit) {
 		if (position < 1) {
 			position = 1;
 		}
 		if (position > states.size() - 1) {
 			position = states.size() - 1;
 		}
-		states.add(position, new State(this, title, description));
-		rerankStates();
+		addState(position, new State(this, name, description, limit));
 		return states;
+	}
+	
+	public void newState(@Nonnull String name, @Nonnull String description, Integer limit) {
+		log.debug("Creating new state for project " + id);
+		addState(1, new State(this, name, description, limit));
 	}
 	
 	/**
@@ -102,15 +115,17 @@ public class Project extends AuditedModel {
 	 * @param state
 	 * @return the new list of states
 	 */
-	public List<State> removeState(@Nonnull State state) {
+	public boolean removeState(@Nonnull State state) {
 		int position = states.indexOf(state);
 		if (position >= 1 && position < states.size() - 1) {
+			log.debug("Removing state " + state.id);
 			for (Story story: state.stories) {
 				story.state = states.get(position - 1);
 			}
 			states.remove(position);
+			return true;
 		}
-		return states;
+		return false;
 	}
 	
 	public boolean moveState(@Nonnull State state, int index) {
