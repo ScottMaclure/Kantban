@@ -9,12 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="297mm"
-   height="210mm"
+   width="1046.8938"
+   height="256.07986"
    id="svg2991"
    version="1.1"
    inkscape:version="0.48.0 r9654"
-   sodipodi:docname="New document 3">
+   sodipodi:docname="kantban.svg"
+   inkscape:export-filename="/home/mgjv/workspace-play/Kantban/public/images/kantban.png"
+   inkscape:export-xdpi="17.169819"
+   inkscape:export-ydpi="17.169819">
   <defs
      id="defs2993" />
   <sodipodi:namedview
@@ -25,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.61399264"
-     inkscape:cx="633.82647"
-     inkscape:cy="386.62419"
+     inkscape:cx="632.29534"
+     inkscape:cy="387.91799"
      inkscape:current-layer="layer1"
      id="namedview2995"
      showgrid="false"
@@ -34,7 +37,11 @@
      inkscape:window-height="885"
      inkscape:window-x="68"
      inkscape:window-y="27"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata2997">
     <rdf:RDF>
@@ -50,19 +57,20 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-4.7884992,-489.30842)">
     <text
        xml:space="preserve"
-       style="font-size:478.86508179px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#de6a00;fill-opacity:1;stroke:#885100;stroke-width:8.05631638;stroke-miterlimit:4;stroke-opacity:0.99595139;stroke-dasharray:none;font-family:Bitstream Vera Sans"
-       x="24.036007"
-       y="271.93863"
+       style="font-size:279.2677002px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#de6a00;fill-opacity:1;stroke:#885100;stroke-width:4.69833612;stroke-miterlimit:4;stroke-opacity:0.99595139;stroke-dasharray:none;font-family:Bitstream Vera Sans"
+       x="11.311511"
+       y="468.8645"
        id="text3000"
        sodipodi:linespacing="125%"
-       transform="scale(0.36681042,2.7262039)"><tspan
+       transform="scale(0.63100918,1.584763)"><tspan
          sodipodi:role="line"
          id="tspan3002"
-         x="24.036007"
-         y="271.93863"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#de6a00;fill-opacity:1;stroke:#885100;stroke-width:8.05631638;stroke-miterlimit:4;stroke-opacity:0.99595139;stroke-dasharray:none;font-family:Air Conditioner;-inkscape-font-specification:Air Conditioner Bold">Kantban</tspan></text>
+         x="11.311511"
+         y="468.8645"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#de6a00;fill-opacity:1;stroke:#885100;stroke-width:4.69833612;stroke-miterlimit:4;stroke-opacity:0.99595139;stroke-dasharray:none;font-family:Air Conditioner;-inkscape-font-specification:Air Conditioner Bold">Kantban</tspan></text>
   </g>
 </svg>

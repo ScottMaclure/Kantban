@@ -7,7 +7,7 @@ $(function() {
         tolerance: 'pointer',
         scroll: true,
         connectWith: ".story-list",
-        containment: $( "#swim-lanes" ).length ? "#swim-lanes" : "document",
+        containment: $("#swim-lanes").length ? "#swim-lanes" : "document",
         update: function(event, ui) {
         	var story = ui.item.attr('id').split('-')[1];
         	var state = $(this).attr('id').split('-')[1];
