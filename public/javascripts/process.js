@@ -23,14 +23,15 @@ $(function() {
 	$(".state-edit").button({
         icons: { primary: "ui-icon-pencil" }
 	});
+	$(".fixed .state-delete").button("option", "disabled", true);
 	
 	$(".state-footer button").hide();
 	$(".state-item").hover(
 		function() {
-			$(this).find("button").fadeIn();
+			$(this).find("button").show();
 		},
 		function() {
-			$(this).find("button").fadeOut();
+			$(this).find("button").hide();
 		}
 	);
 });
