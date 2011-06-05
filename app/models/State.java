@@ -45,8 +45,10 @@ public class State extends Model {
 	public Integer limit;
 	
 	@OneToMany(mappedBy = "state", cascade = CascadeType.PERSIST)
-	@OrderBy("rank")
+	@OrderBy("rank, id")
 	public List<Story> stories;
+	
+	public Double rank;
 	
 	/**
 	 * A state gets created as part of a project

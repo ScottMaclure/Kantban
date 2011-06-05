@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import play.data.validation.Required;
 
@@ -29,6 +30,7 @@ public class Project extends AuditedModel {
 	 * The first and last state are fixed, and cannot be 
 	 * removed or moved.
 	 */
+	@OrderBy("rank, id")
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	public List<State> states;
 	
@@ -60,6 +62,15 @@ public class Project extends AuditedModel {
 		this.status = ProjectStatus.Proposed;
 	}
 	
+	// TODO Can we make this only change ranks that need changing?
+	private void rerankStates() {
+		double rank = 10.0d;
+		for (State state: states) {
+			state.rank = rank;
+			rank += 10.0d;
+		}
+	}
+
 	/**
 	 * Add a new state in the given position. 
 	 * <p>
@@ -79,6 +90,7 @@ public class Project extends AuditedModel {
 			position = states.size() - 1;
 		}
 		states.add(position, new State(this, title, description));
+		rerankStates();
 		return states;
 	}
 	
@@ -104,69 +116,10 @@ public class Project extends AuditedModel {
 	public boolean moveState(@Nonnull State state, int index) {
 		if (states.remove(state)) {
 			states.add(index, state);
+			rerankStates();
 			return true;
 		}
 		return false;
-	}
-	
-	/*
-	 * Recalculate all ranks in a swimlane. While this is much
-	 * simpler than recalculating only the ones that need 
-	 * recalculation, this also results in all stories 
-	 * needing persistence writes.
-	 */
-	private void recalculateAllRanks(List<Story> swimlane) {
-		double rank = 0.0d;
-		for (Story story: swimlane) {
-			story.rank = rank;
-			rank += 10.0d;
-		}
-	}
-	
-	/*
-	 * This recalculates the ranks for a 'swimlane' story list.
-	 * any stories that have a rank of null will be calculated, 
-	 * based on their position in the list. 
-	 * 
-	 * TODO: On certain criteria, like ranks getting too close, 
-	 * all ranks will be recalculated.  
-	 */
-	private void recalculateRanks(List<Story> swimlane) {
-		ListIterator<Story> it = swimlane.listIterator();
-		double previousRank = 0.0d;
-		while (it.hasNext()) {
-			Story story = it.next();
-			if (story.rank == null) {
-				double nextRank = it.hasNext() ? swimlane.get(it.nextIndex()).rank : 20.0d;
-				story.rank = (previousRank + nextRank) / 2.0d;
-			}
-			previousRank = story.rank;
-		}
-	}
-	
-	/**
-	 * Move a story just before another story.
-	 * <p>
-	 * State and rank will be determined from the given story.
-	 * 
-	 * @param story
-	 * @param referenceStory
-	 */
-	@Deprecated
-	public void moveStoryBefore(@Nonnull Story story, @Nonnull Story referenceStory) {
-		List<Story> list = getSwimlane(referenceStory.state);
-	}
-	
-	/**
-	 * Get the list of stories belonging in a swimlane, i.e. state
-	 * 
-	 * @param state - The state representing the swimlane
-	 * @return The list, ordered by rank
-	 */
-	@Deprecated
-	public List<Story> getSwimlane(State state) {
-		List<Story> list = Story.find("project = ? AND state = ? ORDER BY rank", this, state).fetch();
-		return list;
 	}
 	
 	public State defaultState() {

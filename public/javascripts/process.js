@@ -12,7 +12,7 @@ $(function() {
         	var state = ui.item.attr('id').split('-')[1];
        		var url = routes.moveState({state: state, index: ui.item.index()});
        		log(2, "Calling Ajax: " + url);
-       		//doAjax(url);
+       		doAjax(url);
         }
     });
     $("#state-list").disableSelection();

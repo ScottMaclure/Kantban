@@ -40,7 +40,6 @@ public class Story extends AuditedModel {
 	 */
 	public Double rank;
 	
-	
 	@OneToMany(mappedBy = "story")
 	List<Task> tasks;
 	

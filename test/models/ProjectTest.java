@@ -96,17 +96,7 @@ public class ProjectTest extends BasicModelTest {
     	project.save();
     }
     
-    @Test
-    public void testMoveStory() {
-    	// TODO Implement
-    	// Move in one lane
-    	// Move between lanes
-    	// Move between projects
-    	// Move to start
-    	// Move to middle
-    	// Move to end
-    }
-    
+     /* FIXME
     private void assertLaneSizes(Project project, int start, int second, int end) {
     	List<Story> sl;
 
@@ -118,7 +108,6 @@ public class ProjectTest extends BasicModelTest {
     	assertThat(sl.size(), is(end));
     }
 
-    /* FIXME
     @Test
     public void testSwimlanes() {
     	// Set up the project
