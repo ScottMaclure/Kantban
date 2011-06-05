@@ -1,0 +1,11 @@
+*{ stupid underscores }*
+%{ state = _state }%
+<div class="state-info">
+  <span class="name">${state.name}</span>
+  <span class="limit">#{if state.limit}(${state.limit})#{/if}</span>
+  <div class="description">${state.description}</div>
+</div>
+<div class="state-footer">
+  <button class="state-delete small-button">delete</button>
+  <button class="state-edit small-button">edit</button>
+</div>

@@ -16,16 +16,16 @@ var routes = {
   <div class="menu">
   </div>
   <ul id="state-list">
-	#{list items:project.states, as:'state'}
-        <li id="state-${state.id}" class="state-item">
-          <div class="state-info">
-            <span class="name">${state.name}</span>
-            <span class="limit">#{if state.limit}(${state.limit})#{/if}</span>
-            <div class="description">${state.description}</div>
-          </div>
-          <div class="state-footer">
-          </div>
-		</li>
-	#{/list}
+    <li id="state-${project.states[0].id}" class="state-item fixed">
+      #{state-card state: project.states[0] /}
+    </li>
+	#{list items:project.states[1..-2], as:'state'}
+    <li id="state-${state.id}" class="state-item draggable">
+      #{state-card state: state /}
+	 </li>
+     #{/list}
+     <li id="state-${project.states[-1]}" class="state-item fixed">
+      #{state-card state: project.states[-1] /}
+     </li>
   </ul>
 </section>
