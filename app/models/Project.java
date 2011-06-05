@@ -101,6 +101,14 @@ public class Project extends AuditedModel {
 		return states;
 	}
 	
+	public boolean moveState(@Nonnull State state, int index) {
+		if (states.remove(state)) {
+			states.add(index, state);
+			return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * Recalculate all ranks in a swimlane. While this is much
 	 * simpler than recalculating only the ones that need 

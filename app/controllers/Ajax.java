@@ -1,10 +1,12 @@
 package controllers;
 
-import org.apache.log4j.Logger;
-
+import models.Project;
 import models.ResponseMessage;
 import models.State;
 import models.Story;
+
+import org.apache.log4j.Logger;
+
 import play.mvc.Controller;
 
 public class Ajax extends Controller {
@@ -52,6 +54,21 @@ public class Ajax extends Controller {
 		}
 		else {
 			r.addMessage("Could not find story " + storyId);
+		}
+		renderJSON(r);
+	}
+	
+	public static void moveState(Long stateId, Integer index) {
+		log.debug("moveState(" + stateId + ", " + index + ")");
+		ResponseMessage r = new ResponseMessage(false);
+		State state = State.findById(stateId);
+		if (state != null) {
+			Project project = state.project;
+			r.setSuccess(project.moveState(state, index));
+			project.save();
+		}
+		else {
+			r.addMessage("Could not find state " + stateId);
 		}
 		renderJSON(r);
 	}

@@ -5,12 +5,15 @@
 # Home page
 GET     /                                       Application.index
 
-GET     /board/{id}                             Kantban.board
+GET     /project/{id}/board                     Kantban.board
+GET     /project/{id}/process                   Kantban.process
 GET     /project/{id}                           Kantban.board
 
 # Ajax calls
 GET     /ajax/move/story-{storyId}/to/i-{index}                    Ajax.moveStory
 GET     /ajax/move/story-{storyId}/to/state-{stateId}/i-{index}    Ajax.moveStoryToState
+
+GET     /ajax/move/state-{stateId}/to/i-{index}                     Ajax.moveState
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

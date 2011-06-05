@@ -15,6 +15,7 @@
     <body>
     <header>
         <a href="@{Application.index()}"><img id="logo" src="@{'/public/images/kantban.svg'}" title="Kantban" /></a>
+        *{ FIXME Move nav to a tag }*
 		#{if pageType == 'project'}
 		  <!-- 
 		    <h1>${project.title}</h1>
@@ -28,7 +29,8 @@
 		          </ul>
 		        </li>
 		        <li><a href="@{Application.index()}">Home</a></li>
-		        <li><a href="@{Kantban.board(project?.id)}">Board</a></li>
+                <li><a href="@{Kantban.board(project?.id)}">Board</a></li>
+                <li><a href="@{Kantban.process(project?.id)}">Process</a></li>
 		      </ul>
 		    </nav>
 		#{/if}

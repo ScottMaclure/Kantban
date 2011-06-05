@@ -41,6 +41,9 @@ public class State extends Model {
 	@Column(nullable = false)
 	public String name, description;
 	
+	@Column(name = "story_limit") // avoid syntax error
+	public Integer limit;
+	
 	@OneToMany(mappedBy = "state", cascade = CascadeType.PERSIST)
 	@OrderBy("rank")
 	public List<Story> stories;
@@ -71,11 +74,6 @@ public class State extends Model {
 		rerankStories();
 	}
 	
-	/**
-	 * Re-rank a story in this state
-	 * 
-	 * @param index the new index of the story
-	 */
 	public boolean moveStory(@Nonnull Story story, int index) {
 		boolean found = (story.state != this) ?
 			stories.remove(story) :

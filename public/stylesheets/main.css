@@ -171,3 +171,30 @@ nav .project-selector li {
 	background-color: #fbb;
     border-color: #faa;
 }
+
+/* Process flow */
+#state-list {
+    list-style: none;
+}
+.state-item {
+	width: 160px;
+	height: 160px;
+	float: left;
+	margin: 3px 3px 3px 0;
+	padding 1px;
+	background-color: #fc0;
+	border: 1px solid #850;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+.state-item .limit {
+	color: #444;
+}
+.state-item .description {
+    font-size: .8em;
+    font-style: italic;	
+}
+.state-info {
+/* 	height: 6em; */
+	padding: .8em;
+}

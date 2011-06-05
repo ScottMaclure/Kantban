@@ -20,6 +20,12 @@ public class Kantban extends Controller {
     	log.debug("Rendering board for project " + id);
     	render(project);
     }
+    
+    public static void process(@Nonnull Long id) {
+    	Project project = Project.findById(id);
+    	log.debug("Rendering process for project " + id);
+    	render(project);
+    }
 
     public static void story(@Nonnull Long id) {
     	Story story = Story.findById(id);
