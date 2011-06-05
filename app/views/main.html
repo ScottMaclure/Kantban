@@ -14,9 +14,12 @@
     </head>
     <body>
     <header>
+        <a href="@{Application.index()}"><img id="logo" src="@{'/public/images/kantban.svg'}" title="Kantban" /></a>
 		#{if pageType == 'project'}
+		  <!-- 
 		    <h1>${project.title}</h1>
-		    <p>${project.description}</p>    
+		    <p>${project.description}</p>
+		   -->    
 		    <nav>
 		      <ul>
 		        <li>
@@ -25,7 +28,7 @@
 		          </ul>
 		        </li>
 		        <li><a href="@{Application.index()}">Home</a></li>
-		        <li><a href="@{Application.board(project?.id)}">Board</a></li>
+		        <li><a href="@{Kantban.board(project?.id)}">Board</a></li>
 		      </ul>
 		    </nav>
 		#{/if}

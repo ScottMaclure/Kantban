@@ -5,8 +5,8 @@
 # Home page
 GET     /                                       Application.index
 
-GET     /board/{id}                             Application.board
-GET     /project/{id}                           Application.board
+GET     /board/{id}                             Kantban.board
+GET     /project/{id}                           Kantban.board
 
 # Ajax calls
 GET     /ajax/move/story-{storyId}/to/i-{index}                    Ajax.moveStory

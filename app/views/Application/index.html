@@ -3,6 +3,6 @@
 
 <ul class="projects">
 #{list items:projects, as:'project'}
-  <li class="project"><a href="@{Application.board(project.id)}">${project.title}</a></li>
+  <li class="project"><a href="@{Kantban.board(project.id)}">${project.title}</a></li>
 #{/list}
 </ul>

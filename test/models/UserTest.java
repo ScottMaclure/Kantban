@@ -31,4 +31,17 @@ public class UserTest extends BasicModelTest {
     	assertThat(user.password, is("86c7898ce1a826eb53076699877a6eda"));
     }
 
+
+    @Test
+    public void connectUserTest() {
+    	
+    	User user = new User("foo@bar.com", "password", "Foo Bar");
+    	assertThat(user, notNullValue());
+    	user.save();
+    	user = User.connect("foo@bar.com", "password");
+    	assertThat(user, notNullValue());
+    	user = User.connect("foo@bar.com", "=password-");
+    	assertThat(user, nullValue());
+    }
+
 }
