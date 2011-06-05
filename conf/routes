@@ -6,15 +6,15 @@
 GET     /                                       Application.index
 
 # Project pages
-GET     /project/{id}/board                     Kantban.board
-GET     /project/{id}/process                   Kantban.process
-GET     /project/{id}                           Kantban.project
+GET     /project/{id}/board                     Project.board
+GET     /project/{id}/process                   Project.process
+GET     /project/{id}                           Project.index
 
 # Ajax calls
-GET     /ajax/move/story-{storyId}/to/i-{index}                    Ajax.moveStory
-GET     /ajax/move/story-{storyId}/to/state-{stateId}/i-{index}    Ajax.moveStoryToState
+GET     /ajax/move/story-{storyId}/to/i-{index}                    State.moveStory
+GET     /ajax/move/story-{storyId}/to/state-{stateId}/i-{index}    State.moveStoryToState
 
-GET     /ajax/move/state-{stateId}/to/i-{index}                    Ajax.moveState
+GET     /ajax/move/state-{stateId}/to/i-{index}                    Project.moveState
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

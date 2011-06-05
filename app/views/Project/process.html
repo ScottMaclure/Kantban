@@ -9,9 +9,9 @@
 }%
 <script>
 var routes = {
-	moveState: #{jsAction @Ajax.moveState(':state', ':index') /},
-    addState: #{jsAction @Ajax.newState(':project', ':name', ':description', ':limit') /},
-    deleteState: #{jsAction @Ajax.deleteState(':state') /}
+	moveState: #{jsAction @Project.moveState(':state', ':index') /},
+    addState: #{jsAction @Project.newState(':project', ':name', ':description', ':limit') /},
+    deleteState: #{jsAction @Project.deleteState(':state') /}
 } 
 </script>
 <section>

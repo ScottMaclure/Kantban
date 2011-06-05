@@ -2,7 +2,7 @@
 %{ story = _story }%
 <div class="story-header">
     <div class="story-id">
-        <a class="story-link" href="@{Kantban.story(story.id)}" title="Click for story details">${story.id}</a>
+        <a class="story-link" href="@{Project.story(story.id)}" title="Click for story details">${story.id}</a>
     </div>
     <div class="story-owner">
         <span class="story-owner-name">${story.owner ? story.owner.name : 'Unassigned'}</span>

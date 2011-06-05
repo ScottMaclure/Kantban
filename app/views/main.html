@@ -28,9 +28,9 @@
 		            <li>${project.title}</li>
 		          </ul>
 		        </li>
-		        <li><a href="@{Application.index()}">Home</a></li>
-                <li><a href="@{Kantban.board(project?.id)}">Board</a></li>
-                <li><a href="@{Kantban.process(project?.id)}">Process</a></li>
+		        <li><a href="@{Project.index(project.id)}">Home</a></li>
+                <li><a href="@{Project.board(project.id)}">Board</a></li>
+                <li><a href="@{Project.process(project.id)}">Process</a></li>
 		      </ul>
 		    </nav>
 		#{/if}

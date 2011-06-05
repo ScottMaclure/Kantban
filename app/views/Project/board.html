@@ -9,8 +9,8 @@
 }%
 <script>
 var routes = {
- 	moveStoryToState: #{jsAction @Ajax.moveStoryToState(':story', ':state', ':index') /},
-    moveStory: #{jsAction @Ajax.moveStory(':story', ':index') /},
+ 	moveStoryToState: #{jsAction @State.moveStoryToState(':story', ':state', ':index') /},
+    moveStory: #{jsAction @State.moveStory(':story', ':index') /},
 } 
 </script>
 <section>
