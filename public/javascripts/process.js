@@ -1,13 +1,11 @@
 $(function() {
+	// Enable drag, drop and sort on the list of states
 	$("#state-list").sortable({
         revert: true,
         placeholder: "state-item ui-state-highlight",
-        //forcePlaceholderSize: true,
-        //tolerance: 'pointer',
         handle: ".state-info",
-        //scroll: true,
-        //containment: $( "#state-list" ).length ? "#state-list" : "document",
-        cancel: ".fixed",
+        scroll: true,
+        cancel: ".fixed", // do not include the 'fixed' states
         update: function(event, ui) {
         	var state = ui.item.attr('id').split('-')[1];
        		var url = routes.moveState({state: state, index: ui.item.index()});
@@ -17,24 +15,27 @@ $(function() {
     });
     $("#state-list").disableSelection();
     
+    // Create the delete buttons on the states
 	$(".state-delete").button({
         icons: { primary: "ui-icon-circle-close" }
 	}).click(function() {
 		var state = $(this).parents(".state-item").attr('id');
-		alert(state);
 		state = $(this).parents(".state-item").attr('id').split('-')[1];
    		var url = routes.deleteState({state: state});
    		log(2, "Calling Ajax: " + url);
    		doAjax(url, function() {
-   			// location.reload()
+   			location.reload(true)
    		});
 	});
+	// 'fixed' states cannot be deleted
+	$(".fixed .state-delete").button("option", "disabled", true);
 	
+	// Create the edit buttons on the states
 	$(".state-edit").button({
         icons: { primary: "ui-icon-pencil" }
 	});
-	$(".fixed .state-delete").button("option", "disabled", true);
 	
+	// hide the buttons, unless the mouse hovers over the note
 	$(".state-footer button").hide();
 	$(".state-item").hover(
 		function() {
@@ -45,7 +46,7 @@ $(function() {
 		}
 	);
 	
-	
+	// Create a popup from, and tie it to the button
 	$("#state-create-form").dialog({
 		autoOpen: false,
 		height: 300,
@@ -64,8 +65,9 @@ $(function() {
 	       			limit: limit
 	       		});
 	       		log(2, "Calling Ajax: " + url);
+				$(this).dialog("close");
 	       		doAjax(url, function() { 
-	       			//location.reload 
+	       			location.reload(true);
 	       		});
 	       		
 			},
