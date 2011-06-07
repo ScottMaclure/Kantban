@@ -22,7 +22,8 @@ function resizeLanes() {
     $("#swim-lanes").each(function(index) {
     	var p = $(this).padding();
     	var b = $(this).border();
-    	$(this).attr("height", height - p.top - p.bottom - b.top - b.bottom);
+    	var m = $(this).margin();
+    	$(this).attr("height", height - p.top - p.bottom - b.top - b.bottom - m.top - m.bottom);
     });
 }
 $(window).resize(function() {
