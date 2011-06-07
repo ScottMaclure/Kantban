@@ -2,6 +2,7 @@
 #{set pageType:'project' /}
 #{set title:'Home' /}
 #{set 'moreScripts'}
+    #{script 'jquery-sizes-0.33.min.js' /}
     #{script 'board.js' /}
 #{/set}
 %{
@@ -13,29 +14,34 @@ var routes = {
     moveStory: #{jsAction @State.moveStory(':story', ':index') /},
 } 
 </script>
+
 <section>
-	<div id="swim-lanes">
-		<div id="backlog-lane">${project.states[0].name}</div>
-		<div id="middle-lanes">
-			<table>
-			<tbody>
-			<tr>
-			#{list items:project.states[1..-2], as:'state'}
-                <td class="lane" style="width:${laneWidth}%">
-                    <div class="lane-header">${state.name}</div>
-                    <ul id="state-${state.id}" class="story-list ui-sortable">
-                    #{list items:state.stories, as:'story'}
-                        <li id="story-${story.id}" class="story ${story.colour}">
-                            #{story-card story:story /}
-                        </li>
-                    #{/list}
-                    </ul>
-			    </td>
-			#{/list}
-			</tr>
-			</tbody>
-		</table>
-		</div>
-	    <div id="archive-lane">${project.states[-1].name}</div>
-	</div>
+  <table id="swim-lanes">
+    <tbody>
+	<tr>
+	  <td class="lane fixed">
+        <div id="backlog-lane">
+           <!-- ${project.states[0].name} -->
+        </div>
+      </td>
+	  #{list items:project.states[1..-2], as:'state'}
+          <td class="lane dynamic">
+             <div class="lane-header">${state.name}</div>
+             <ul id="state-${state.id}" class="story-list ui-sortable">
+             #{list items:state.stories, as:'story'}
+                 <li id="story-${story.id}" class="story ${story.colour}">
+                     #{story-card story:story /}
+                 </li>
+             #{/list}
+             </ul>
+ 	      </td>
+	  #{/list}
+           <td class="lane fixed">
+             <div id="archive-lane">
+               <!-- ${project.states[-1].name} -->
+             </div>
+           </td>
+	</tr>
+	</tbody>
+  </table>
 </section>

@@ -6,15 +6,16 @@
 GET     /                                       Application.index
 
 # Project pages
-GET     /project/{id}/board                     Project.board
-GET     /project/{id}/process                   Project.process
-GET     /project/{id}                           Project.index
+GET     /project/{<[0-9]+>id}/board                     Project.board
+GET     /project/{<[0-9]+>id}/process                   Project.process
+GET     /project/{<[0-9]+>id}                           Project.index
 
-# Ajax calls
-GET     /ajax/move/story-{storyId}/to/i-{index}                    State.moveStory
-GET     /ajax/move/story-{storyId}/to/state-{stateId}/i-{index}    State.moveStoryToState
+# Ajax call URLs should also be nice and readable
+GET     /ajax/story-{<[0-9]+>storyId}/moveTo/i-{<[0-9]+>index}                              State.moveStory
+GET     /ajax/story-{<[0-9]+>storyId}/moveTo/state-{<[0-9]+>stateId}/i-{<[0-9]+>index}      State.moveStoryToState
 
-GET     /ajax/move/state-{stateId}/to/i-{index}                    Project.moveState
+GET     /ajax/state-{stateId}/moveTo/i-{<[0-9]+>index}                                      Project.moveState
+GET     /ajax/state-{stateId}/delete                                                        Project.deleteState
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

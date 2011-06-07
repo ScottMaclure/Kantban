@@ -1,3 +1,33 @@
+// Fix the width of the dynamic lanes
+function resizeLanes() {
+    var nLanes=$(".lane").size();
+	log(1, "Have " + (nLanes - 2) + " to do in " + window.innerWidth + " pixels");
+    var fixedWidth = 0;
+    var nFixedLanes = 0;
+    $(".lane.fixed").each(function(index){
+    	fixedWidth += $(this).outerWidth(true);
+    	nFixedLanes++;
+    });
+    log(1, "Have " + fixedWidth + " fixed pixels in " + nFixedLanes + " lanes");
+    var dynamicWidth = Math.floor((window.innerWidth - fixedWidth)/(nLanes - nFixedLanes));
+    $(".lane.dynamic").each(function(index) {
+    	// Fixme what about padding? This width is the outer width for the td
+    	var p = $(this).padding();
+    	var b = $(this).border();
+    	var m = $(this).margin();
+    	$(this).attr("width", dynamicWidth - p.left - p.right - b.left - b.right - m.left - m.right);
+    });
+
+	var height = window.innerHeight - $("#swim-lanes").offset().top;
+    $("#swim-lanes").each(function(index) {
+    	var p = $(this).padding();
+    	var b = $(this).border();
+    	$(this).attr("height", height - p.top - p.bottom - b.top - b.bottom);
+    });
+}
+$(window).resize(function() {
+	resizeLanes();
+});
 $(function() {
 	$(".story-list").sortable({
         revert: true,
@@ -23,4 +53,6 @@ $(function() {
         },
     });
     $(".story-list").disableSelection();
+    
+    resizeLanes();
 });

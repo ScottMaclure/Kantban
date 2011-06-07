@@ -76,32 +76,48 @@ nav .project-selector li {
 #menu {
 	
 }
-	
-/* Board */
 
-#middle-lanes table {
+section { 
+	height: 100%;
+}
+/* Board */
+#swim-lanes table {
 	width: 100%;
-	height: 513px;
 }
 
 .lane {
 	border-left: 1px solid #bbb;
 	border-right: 1px solid #bbb;
 	vertical-align: top;
-	
 	padding: 8px;
+}
+.lane.dynamic {
+}
+.lane.fixed {
+	background-color: #ccc;
+	width: 10px;
 }
 .lane-header { 
     font-size: 1.3em;
     padding: 0 6px 6px 6px;
 }
-
-#backlog-lane, #archive-lane {
-	display: none;
+.lane-container {
+	float: left;
 }
 
-/* Story cards */
+/*
+#backlog-lane {
+	-webkit-transform: rotate(-90deg); 
+    -moz-transform: rotate(-90deg); 
+}
 
+#archive-lane {
+    -webkit-transform: rotate(90deg); 
+    -moz-transform: rotate(90deg); 
+}
+*/
+
+/* Story cards */
 .story {
 	list-style: none;
 	margin-bottom: 0.25em;
