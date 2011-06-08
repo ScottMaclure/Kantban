@@ -83,7 +83,5 @@ $(function() {
     
     // make sure we recalculate on load and when the window size changes
     resizeLanes();
-    $(window).resize(function() { 
-    	resizeLanes(); 
-    });
+    $(window).resize(resizeLanes); 
 });
