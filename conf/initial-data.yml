@@ -50,8 +50,8 @@ State(state5):
 
 Story(story1-1):
     state: state2
-    title: Story 1
-    description: This is the description of Story 1.
+    title: User Story 1
+    description: As a user I want to be able to see story descriptions in order to understand them.
     createdUser: owner
     owner: owner
     colour: red
@@ -67,6 +67,7 @@ Task(task1):
 Story(story1-2):
     state: state3
     title: Story 2
+    description: As a project owner I want to control everything in order to feel powerful!
     createdUser: owner
     owner: owner
 Story(story1-3):

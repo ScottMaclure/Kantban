@@ -4,9 +4,9 @@
 #{set 'moreScripts'}
     #{script 'process.js' /}
 #{/set}
-%{
-    laneWidth = Math.round(1000/(project.states.size() - 2))/10
-}%
+#{set 'moreStyles'}
+    #{stylesheet 'process.css' /}
+#{/set}
 <script>
 var routes = {
 	moveState: #{jsAction @Project.moveState(':state', ':index') /},

@@ -1,0 +1,41 @@
+/* Process flow */
+
+#state-list {
+    list-style: none;
+    padding: .15em;
+}
+.state-item {
+    width: 160px;
+    height: 160px;
+    float: left;
+    margin: 4px;
+    background-color: #fc0;
+    border: 1px solid #850;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+}
+.state-item.fixed {
+    background-color: #d90;
+}
+.state-item .limit {
+    color: #444;
+}
+.state-item .description {
+    font-size: .8em;
+    font-style: italic;
+    margin-top: .5em;
+    text-align: left;
+}
+.state-info {
+    height: 100px;
+    text-align: center;
+    padding: .8em;
+}
+.state-item.draggable .state-info {
+    cursor: move;
+}
+.state-footer {
+    border-top: 1px dotted #850;
+    padding-top: 4px;
+    text-align: center;
+}

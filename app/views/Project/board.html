@@ -5,6 +5,9 @@
     #{script 'jquery-sizes-0.33.min.js' /}
     #{script 'board.js' /}
 #{/set}
+#{set 'moreStyles'}
+    #{stylesheet 'board.css' /}
+#{/set}
 %{
     laneWidth = Math.round(1000/(project.states.size() - 2))/10
 }%
@@ -20,8 +23,21 @@ var routes = {
     <tbody>
 	<tr>
 	  <td class="lane fixed">
-        <div id="backlog-lane">
-           <!-- ${project.states[0].name} -->
+        <div class="closed">
+           <span class="arrow">&raquo;</span>
+        </div>
+        <div class="open">
+             <div class="lane-header">
+                <span class="arrow">&laquo;</span> 
+                ${project.states[0].name}
+             </div>
+             <ul id="state-${project.states[0].id}" class="story-list ui-sortable">
+             #{list items:project.states[0].stories, as:'story'}
+                 <li id="story-${story.id}" class="story ${story.colour}">
+                     #{story-card story:story /}
+                 </li>
+             #{/list}
+             </ul>
         </div>
       </td>
 	  #{list items:project.states[1..-2], as:'state'}
@@ -37,10 +53,23 @@ var routes = {
  	      </td>
 	  #{/list}
            <td class="lane fixed">
-             <div id="archive-lane">
-               <!-- ${project.states[-1].name} -->
+       <div class="closed">
+           <span class="arrow">&laquo;</span>
+        </div>
+        <div class="open">
+             <div class="lane-header">
+                <span class="arrow">&raquo;</span> 
+                ${project.states[-1].name}
              </div>
-           </td>
+             <ul id="state-${project.states[-1].id}" class="story-list ui-sortable">
+             #{list items:project.states[-1].stories, as:'story'}
+                 <li id="story-${story.id}" class="story ${story.colour}">
+                     #{story-card story:story /}
+                 </li>
+             #{/list}
+             </ul>
+        </div>
+      </td>
 	</tr>
 	</tbody>
   </table>

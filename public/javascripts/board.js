@@ -3,14 +3,18 @@ function resizeLanes() {
 	
 	// Get some information about the lanes
     var nLanes=$(".lane").size();
-	log(1, "Have " + (nLanes - 2) + " to do in " + window.innerWidth + " pixels");
+	log(2, "Have " + (nLanes - 2) + " to do in " + window.innerWidth + " pixels");
     var fixedWidth = 0;
     var nFixedLanes = 0;
     $(".lane.fixed").each(function(index){
-    	fixedWidth += $(this).outerWidth(true);
+    	var width = parseInt($(this).css("width"));
+    	if (!width) {
+    		width = $(this).outerWidth(true);   	
+    	}
+    	fixedWidth += width;
     	nFixedLanes++;
     });
-    log(1, "Have " + fixedWidth + " fixed pixels in " + nFixedLanes + " lanes");
+    log(2, "Have " + fixedWidth + " fixed pixels in " + nFixedLanes + " lanes");
     
     // Now change the lane widths
     var dynamicWidth = Math.floor((window.innerWidth - fixedWidth)/(nLanes - nFixedLanes));
@@ -18,7 +22,7 @@ function resizeLanes() {
     	var p = $(this).padding();
     	var b = $(this).border();
     	var m = $(this).margin();
-    	$(this).attr("width", dynamicWidth - p.left - p.right - b.left - b.right - m.left - m.right);
+    	$(this).css("width", dynamicWidth - p.left - p.right - b.left - b.right - m.left - m.right);
     });
 
     // And the height of the lane table
@@ -27,11 +31,31 @@ function resizeLanes() {
     	var p = $(this).padding();
     	var b = $(this).border();
     	var m = $(this).margin();
-    	$(this).attr("height", height - p.top - p.bottom - b.top - b.bottom - m.top - m.bottom);
+    	$(this).css("height", height - p.top - p.bottom - b.top - b.bottom - m.top - m.bottom);
     });
 }
 
 $(function() {
+	
+	// Deal with the 'hidden' fixed lanes
+	// TODO fix the dependency on size. Maybe use toggleClass instead?
+    $(".open").hide();
+    $(".closed .arrow").click(function() {
+    	var lane = $(this).parents(".lane");
+    	lane.css("width", 250);
+    	lane.find(".closed").hide();
+    	lane.find(".open").show();
+    	resizeLanes();
+    });
+    $(".open .arrow").click(function() {
+    	var lane = $(this).parents(".lane");
+    	lane.css("width", 10);
+    	lane.find(".open").hide();
+    	lane.find(".closed").show();
+    	resizeLanes();
+    });
+
+    // Make lists sortable/droppable
 	$(".story-list").sortable({
         revert: true,
         handle: ".story-header",
@@ -57,9 +81,9 @@ $(function() {
     });
     $(".story-list").disableSelection();
     
+    // make sure we recalculate on load and when the window size changes
     resizeLanes();
-    // make sure we recalculate when the window size changes
-    $(window).resize(function() {
-    	resizeLanes();
+    $(window).resize(function() { 
+    	resizeLanes(); 
     });
 });
