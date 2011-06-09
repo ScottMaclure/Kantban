@@ -14,6 +14,9 @@
     background-color: #ccc;
     width: 10px;
 }
+.lane .arrow {
+    font-size: 1.3em;
+}
 .lane-header { 
     font-size: 1.3em;
     padding: 0 6px 6px 6px;

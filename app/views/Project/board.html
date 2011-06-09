@@ -27,9 +27,8 @@ var routes = {
            <span class="arrow">&raquo;</span>
         </div>
         <div class="open">
-             <div class="lane-header">
-                <span class="arrow">&laquo;</span> 
-                ${project.states[0].name}
+             <div class="lane-header arrow">
+                &laquo; ${project.states[0].name}
              </div>
              <ul id="state-${project.states[0].id}" class="story-list ui-sortable">
              #{list items:project.states[0].stories, as:'story'}
@@ -57,9 +56,8 @@ var routes = {
            <span class="arrow">&laquo;</span>
         </div>
         <div class="open">
-             <div class="lane-header">
-                <span class="arrow">&raquo;</span> 
-                ${project.states[-1].name}
+             <div class="lane-header arrow">
+                &raquo; ${project.states[-1].name}
              </div>
              <ul id="state-${project.states[-1].id}" class="story-list ui-sortable">
              #{list items:project.states[-1].stories, as:'story'}
