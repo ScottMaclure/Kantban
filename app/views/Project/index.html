@@ -1,12 +1,10 @@
 #{extends 'main.html' /}
-#{set pageType:'project' /}
-#{set title:'Home' /}
+#{set pageType: 'project' /}
+#{set nav: 'project' /}
+#{set title: 'Home' /}
 #{set 'moreScripts'}
     #{script 'process.js' /}
 #{/set}
-%{
-    laneWidth = Math.round(1000/(project.states.size() - 2))/10
-}%
 <script>
 var routes = {
 } 

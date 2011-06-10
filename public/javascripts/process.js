@@ -47,7 +47,7 @@ $(function() {
 	);
 	
 	// Create a popup from, and tie it to the button
-	$("#state-create-form").dialog({
+	$("#state-edit-form").dialog({
 		autoOpen: false,
 		height: 300,
 		width: 350,
@@ -78,6 +78,6 @@ $(function() {
 	});
 	$("#state-create-button").button()
 		.click(function() {
-			$( "#state-create-form" ).dialog( "open" );
+			$("#state-edit-form").dialog("open");
 		});
 });

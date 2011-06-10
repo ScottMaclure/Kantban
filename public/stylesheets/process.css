@@ -5,14 +5,14 @@
     padding: .15em;
 }
 .state-item {
-    width: 160px;
-    height: 160px;
+    width: 10em;
+    height: 10em;
+    margin: .25em;
     float: left;
-    margin: 4px;
     background-color: #fc0;
     border: 1px solid #850;
-    border-radius: 8px;
-    -webkit-border-radius: 8px;
+    border-radius: .5em;
+    -webkit-border-radius: .5em;
 }
 .state-item.fixed {
     background-color: #d90;
@@ -21,15 +21,15 @@
     color: #444;
 }
 .state-item .description {
-    font-size: .8em;
+    font-size: .75em;
     font-style: italic;
     margin-top: .5em;
     text-align: left;
 }
 .state-info {
-    height: 100px;
+    height: 7em;
+    padding: .5em;
     text-align: center;
-    padding: .8em;
 }
 .state-item.draggable .state-info {
     cursor: move;
@@ -38,4 +38,12 @@
     border-top: 1px dotted #850;
     padding-top: 4px;
     text-align: center;
+}
+
+/* The edit form */
+
+#state-edit-form label {
+	display: block;
+	float: left;
+	width: 20em;
 }

@@ -1,6 +1,7 @@
 #{extends 'main.html' /}
 #{set pageType:'project' /}
-#{set title:'Home' /}
+#{set nav: 'process' /}
+#{set title:'Process' /}
 #{set 'moreScripts'}
     #{script 'process.js' /}
 #{/set}
@@ -32,7 +33,7 @@ var routes = {
      </li>
   </ul>
   
-  <div id="state-create-form" title="Create new state" project-id="${project.id}"> 
+  <div id="state-edit-form" title="Create new state" project-id="${project.id}"> 
     <form> 
     <fieldset> 
         <label for="name">Name</label> 
