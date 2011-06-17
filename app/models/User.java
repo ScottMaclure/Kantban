@@ -43,10 +43,6 @@ public class User extends Model {
         return find("byEmailAddressAndPassword", email, hashPassword(password)).first();
     }
 
-    public String getGravatarId() {
-    	return DigestUtils.md5Hex(StringUtils.trim(emailAddress));
-    }
-
     @Override
     public String toString() {
         return name != null ? name : "" + " <" + emailAddress + ">";

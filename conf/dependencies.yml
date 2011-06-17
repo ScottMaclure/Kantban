@@ -2,10 +2,10 @@
 
 require:
     - play
+    - play -> gravatar 1.0
     - play -> maven head
     - play -> secure
     - play -> crud
     - play -> jqvalidate 0.3
     - play -> html5validation 1.2
-
-
+    - play -> betterlogs 1.0
