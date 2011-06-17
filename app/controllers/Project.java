@@ -39,7 +39,9 @@ public class Project extends Controller {
     }
 
     public static void story(@Nonnull Long id) {
-    	genericProject(id);
+    	models.Story story = models.Story.findById(id);
+    	models.Project project = models.Project.findById(story.state.project.id);
+    	render(project, story);
     }
 
 	public static void moveState(Long stateId, Integer index) {

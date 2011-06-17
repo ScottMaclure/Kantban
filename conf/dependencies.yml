@@ -5,3 +5,7 @@ require:
     - play -> maven head
     - play -> secure
     - play -> crud
+    - play -> jqvalidate 0.3
+    - play -> html5validation 1.2
+
+
