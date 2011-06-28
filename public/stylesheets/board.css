@@ -58,15 +58,19 @@
     cursor: move;
     border-bottom: 1px solid;
 }
-.story-link {
-    padding-left: .5em;
-    padding-right: .25em;
-    color: black;
-    line-height: 24px;
-}
 .story-id {
-    font-weight: bold;
+}
+.story-link {
+	padding: .25em .25em 0 .5em;
     float: left;
+    font-weight: bold;
+}
+.story-link .ui-icon {
+    float: left;
+    display: none;
+}
+.story-link:HOVER .ui-icon {
+    display: block;
 }
 .story-owner {
     float: right;
