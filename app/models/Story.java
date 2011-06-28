@@ -52,6 +52,37 @@ public class Story extends AuditedModel {
     //@Column(nullable = false)
     public String colour;
     
+    /* 
+     * Story metrics: All in seconds spent in a state
+     * 
+     *  Lead time: total time spent 
+     */
+    Date cycleStartedOn;    // When pulled out of backlog
+    Date archivedOn;   		// When moved into archive
+    Integer workTime;		// How long this spent in work
+    Integer waitTime;		// How long this spent in 'ready' state
+    Integer blockTime;		// How long spent in 'blocked' state
+    
+    public Integer getCycleTime() {
+    	if (cycleStartedOn != null && archivedOn != null) {
+    		Long l = (archivedOn.getTime() - cycleStartedOn.getTime())/1000;
+    		return l.intValue();
+    	}
+    	else {
+    		return null;
+    	}
+    }
+    
+    public Integer getLeadTime() {
+    	if (archivedOn != null) {
+    		Long l = (archivedOn.getTime() - createdOn.getTime())/1000;
+    		return l.intValue();
+    	}
+    	else {
+    		return null;
+    	}
+    }
+       
 	/**
 	 * Create a new story
 	 * <p>
