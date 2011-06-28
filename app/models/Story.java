@@ -57,10 +57,15 @@ public class Story extends AuditedModel {
      * 
      *  Lead time: total time spent 
      */
+	@Column(name = "cycle_started_on")
     Date cycleStartedOn;    // When pulled out of backlog
+	@Column(name = "archived_on")
     Date archivedOn;   		// When moved into archive
+	@Column(name = "work_time")
     Integer workTime;		// How long this spent in work
+	@Column(name = "wait_time")
     Integer waitTime;		// How long this spent in 'ready' state
+	@Column(name = "block_time")
     Integer blockTime;		// How long spent in 'blocked' state
     
     public Integer getCycleTime() {

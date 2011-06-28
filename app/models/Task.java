@@ -31,6 +31,7 @@ public class Task extends AuditedModel {
 	
 	@Column(name = "estimated_time")
 	public Integer estimatedTime; // minutes
+	@Column(name = "actual_time")
 	public Integer actualTime; // minutes
 
 	/**
