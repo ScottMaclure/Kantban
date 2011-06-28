@@ -46,7 +46,7 @@ public class State extends Controller {
 		ResponseMessage r = new ResponseMessage(false);
 		Story story = Story.findById(storyId);
 		if (story != null) {
-			models.State state = story.state;
+			models.State state = story.getState();
 			r.setSuccess(state.moveStory(story, index));
 			state.save();
 		}

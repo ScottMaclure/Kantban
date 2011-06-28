@@ -91,8 +91,8 @@ public class ProjectTest extends BasicModelTest {
     	state.save();
     	
     	project.removeState(state);
-    	assertThat(story.state, is(not(state)));
-    	assertThat(story.state, is(project.states.get(2)));
+    	assertThat(story.getState(), is(not(state)));
+    	assertThat(story.getState(), is(project.states.get(2)));
     	project.save();
     }
     

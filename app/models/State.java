@@ -77,18 +77,18 @@ public class State extends Model {
 	}
 
 	public void addStory(@Nonnull Story story) {
-		story.state = this;
+		story.setState(this);
 		stories.add(story);
 		rerankStories();
 	}
 	
 	public boolean moveStory(@Nonnull Story story, int index) {
-		boolean found = (story.state != this) ?
+		boolean found = (story.getState() != this) ?
 			stories.remove(story) :
-			story.state.stories.remove(story);
+			story.getState().stories.remove(story);
 		
 		if (found) {
-			story.state = this;
+			story.setState(this);
 			stories.add(index, story);
 			rerankStories();
 			log.debug("Moved story " + story.id + " to position " + index);

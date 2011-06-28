@@ -19,11 +19,11 @@ public class StoryTest extends BasicModelTest {
     	Story story = state.newStory(title, getDefaultUser());
     	assertThat(story, notNullValue());
     	story.description = description;
-    	assertThat(story.state.project, is(getDefaultProject()));
+    	assertThat(story.getState().project, is(getDefaultProject()));
     	story.save();
     	
     	project = getDefaultProject();
-    	assertThat(project, is(story.state.project));
+    	assertThat(project, is(story.getState().project));
     	assertThat(project.defaultState().stories.size(), is(1));
     	
     	List<Story> stories = Story.findAll();
@@ -34,6 +34,6 @@ public class StoryTest extends BasicModelTest {
     	assertThat(description, is(story.description));
     	assertThat(story.createdOn, is(recentDate()));
     	assertThat(getDefaultUser(), is(story.createdUser));
-    	assertThat(getDefaultProject().states.get(0), is(story.state));
+    	assertThat(getDefaultProject().states.get(0), is(story.getState()));
     }
 }

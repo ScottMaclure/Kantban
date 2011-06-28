@@ -120,7 +120,7 @@ public class Project extends AuditedModel {
 		if (position >= 1 && position < states.size() - 1) {
 			log.debug("Removing state " + state.id);
 			for (Story story: state.stories) {
-				story.state = states.get(position - 1);
+				story.setState(states.get(position - 1));
 			}
 			states.remove(position);
 			return true;

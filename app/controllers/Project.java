@@ -40,7 +40,7 @@ public class Project extends Controller {
 
     public static void story(@Nonnull Long id) {
     	models.Story story = models.Story.findById(id);
-    	models.Project project = models.Project.findById(story.state.project.id);
+    	models.Project project = models.Project.findById(story.getState().project.id);
     	render(project, story);
     }
 
