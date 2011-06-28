@@ -10,7 +10,7 @@
     <div class="story-owner">
         <span class="story-owner-name">${story.owner ? story.owner.name : 'Unassigned'}</span>
         #{if story.owner}
-        <img class="story-owner-avatar" src="http://www.gravatar.com/avatar/${story.owner.gravatarId}?s=24&d=mm&r=pg" />
+        #{gravatar.img story.owner.emailAddress, size:24, default:'mm', rating:'pg' /}
         #{/if}
     </div>
 </div>

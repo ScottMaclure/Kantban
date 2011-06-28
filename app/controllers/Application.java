@@ -13,7 +13,7 @@ import play.mvc.Controller;
 //@With(Secure.class)
 public class Application extends Controller {
 	
-	private final static Logger log = Logger.getLogger(Application.class);
+	//private final static Logger log = Logger.getLogger(Application.class);
 
     public static void index() {
     	List<Project> projects = Project.all().fetch();
