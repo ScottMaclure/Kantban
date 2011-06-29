@@ -54,9 +54,10 @@ public abstract class AuditedModel extends Model {
 	 * This should never be called by the application directly. 
 	 * This is managed by the JPA entity manager. 
 	 */
+	@SuppressWarnings("unused")
 	@PreUpdate
 	@PrePersist
-	protected void updateTimeStamps() {
+	private void setTimeStamps() {
 	    updatedOn = new Date();
 	    if (createdOn == null) {
 	      createdOn = updatedOn;

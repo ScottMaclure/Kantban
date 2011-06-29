@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PostPersist;
 
 import org.apache.log4j.Logger;
 
@@ -109,4 +110,13 @@ public class State extends Model {
 		}
 	}
 
+	/**
+	 * Ensure that statistics are kept on each persist.
+	 */
+	@SuppressWarnings("unused")
+	@PostPersist
+	private static void updateStatistics() {
+		
+	}
+	
 }

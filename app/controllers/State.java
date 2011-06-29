@@ -1,5 +1,7 @@
 package controllers;
 
+import javax.persistence.PostPersist;
+
 import models.ResponseMessage;
 import models.Story;
 
