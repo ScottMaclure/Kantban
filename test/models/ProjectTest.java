@@ -1,6 +1,6 @@
 package models;
-import static models.Matchers.recentDate;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.*;
+import static matchers.Matchers.recentDate;
 
 import java.util.List;
 

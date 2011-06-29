@@ -11,6 +11,7 @@ import javax.persistence.PreUpdate;
 
 import play.Logger;
 import play.db.jpa.Model;
+import services.SystemTime;
 
 @MappedSuperclass
 public abstract class AuditedModel extends Model {
@@ -40,8 +41,6 @@ public abstract class AuditedModel extends Model {
 	}
 
 	protected AuditedModel() {
-		createdOn = new Date();
-		updatedOn = this.createdOn;
 	}
 	protected AuditedModel(User createdUser) {
 		this();
@@ -58,7 +57,7 @@ public abstract class AuditedModel extends Model {
 	@PreUpdate
 	@PrePersist
 	private void setTimeStamps() {
-	    updatedOn = new Date();
+	    updatedOn = SystemTime.asDate();
 	    if (createdOn == null) {
 	      createdOn = updatedOn;
 	    }

@@ -1,8 +1,8 @@
 package models;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
-import static models.Matchers.*;
+import static org.hamcrest.Matchers.*;
+import static matchers.Matchers.recentDate;
 import org.junit.Test;
 
 public class CommentTest extends BasicModelTest {

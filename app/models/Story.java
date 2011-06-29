@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import services.SystemTime;
 
 /**
  * A Story
@@ -63,10 +64,6 @@ public class Story extends AuditedModel {
 		return colour != null ? colour : "grey";
 	}
 	
-    
-    private boolean ready;
-    private boolean blocked;
-    
     /*
      * Story metrics: All in seconds spent in a work state
      * 
@@ -110,13 +107,7 @@ public class Story extends AuditedModel {
      * @return seconds
      */
     public Integer getLeadTime() {
-    	if (archivedOn != null) {
-    		Long l = (archivedOn.getTime() - createdOn.getTime())/1000;
-    		return l.intValue();
-    	}
-    	else {
-    		return null;
-    	}
+    	return archivedOn != null ? dateDiff(createdOn, archivedOn) : null;
     }
     
     /**
@@ -124,15 +115,41 @@ public class Story extends AuditedModel {
      * @return seconds
      */
     public int getWaitTime() {
-		return waitTime;
+    	return readyOn != null 
+    			? dateDiff(readyOn, SystemTime.asMillis()) + waitTime
+    			: waitTime;
     }
     /**
      * The time spent in 'blocked' state
      * @return seconds
      */
     public int getBlockTime() {
-		return blockTime;
+    	return blockedOn != null 
+    			? dateDiff(blockedOn, SystemTime.asMillis()) + blockTime
+    			: blockTime;
 	}
+    
+    /**
+     * Return the difference between date1 and date2 in seconds
+     * 
+     * @param date1
+     * @param date2
+     * @return seconds
+     */
+    private int dateDiff(Date date1, Date date2) {
+		return dateDiff(date1.getTime(), date2.getTime());
+    }
+    /*
+    private int dateDiff(long time1, Date date2) {
+		return dateDiff(time1, date2.getTime());
+    }
+    */
+    private int dateDiff(Date date1, long time2) {
+		return dateDiff(date1.getTime(), time2);
+    }
+    private int dateDiff(long time1, long time2) {
+		return (int) ((time2 - time1)/1000);
+    }
     
     /**
      * Work time spent on story.
@@ -145,61 +162,61 @@ public class Story extends AuditedModel {
      */
     public int getWorkTime() {
     	if (cycleStart != null) {
-    		Date refDate = archivedOn != null ? archivedOn : new Date();
-    		Long t = (refDate.getTime() - cycleStart.getTime())/1000;
-    		return t.intValue() - blockTime - waitTime;
+    		Date refDate = archivedOn != null ? archivedOn : SystemTime.asDate();
+    		return dateDiff(cycleStart, refDate) - getBlockTime() - getWaitTime();
     	}
     	else {
     		return 0;
     	}
 	}
-    public State getState() {
-		return state;
-	}
+    
+    // TODO Special handling for move to archive. We need to unblock?
     public void setState(State state) {
     	if (state != this.state) {
 	    	setReady(false);
 	   		if (this.state == getSandBox() && cycleStart == null) {
-	   			cycleStart = new Date();
+	   			cycleStart = SystemTime.asDate();
 	    	}
 	   		if (state == getArchive()) {
-	   			archivedOn = new Date();
+	   			archivedOn = SystemTime.asDate();
 	   		}
 			this.state = state;
     	}
 	}
+    public State getState() {
+		return state;
+	}
     
     public void setReady(boolean ready) {
-    	if (ready != this.ready) {
+    	if (ready != isReady()) {
     		if (ready) {
-    			readyOn = new Date();
+    			setBlocked(false);
+    			readyOn = SystemTime.asDate();
     		}
     		else {
-    			Long t = (new Date().getTime() - readyOn.getTime())/1000;
-    			waitTime += t.intValue();
+    			waitTime += dateDiff(readyOn, SystemTime.asMillis());
     			readyOn = null;
     		}
-    		this.ready = ready;
     	}
-	}
+	}    
     public boolean isReady() {
-		return ready;
+		return readyOn != null;
 	}
+    
     public void setBlocked(boolean blocked) {
-    	if (blocked != this.blocked) {
+    	if (blocked != isBlocked()) {
     		if (blocked) {
-    			blockedOn = new Date();
+    			setReady(false);
+    			blockedOn = SystemTime.asDate();
     		}
     		else {
-    			Long t = (new Date().getTime() - blockedOn.getTime())/1000;
-    			blockTime += t.intValue();
+    			blockTime += dateDiff(blockedOn, SystemTime.asMillis());
     			blockedOn = null;
     		}
-    		this.blocked = blocked;
     	}
 	}
     public boolean isBlocked() {
-		return blocked;
+		return blockedOn != null;
 	}
        
 	/**
@@ -220,8 +237,6 @@ public class Story extends AuditedModel {
 		this.title = title;
 		// TODO Check that state is in project
 		this.state = state;
-		this.ready = false;
-		this.blocked = false;
 	}
 
 	/**

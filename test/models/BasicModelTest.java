@@ -3,10 +3,13 @@ package models;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.*;
+
+import org.junit.After;
 import org.junit.Before;
 
 import play.test.Fixtures;
 import play.test.UnitTest;
+import services.SystemTime;
 
 public abstract class BasicModelTest extends UnitTest {
     
@@ -16,7 +19,12 @@ public abstract class BasicModelTest extends UnitTest {
         Fixtures.deleteDatabase();
     }
     
-    protected User getDefaultUser() {
+	@After
+	public void resetAll() {
+		SystemTime.reset();
+	}
+
+	protected User getDefaultUser() {
         User user = User.find("byName", "Default User").first();
         if (user == null) {
             user = new User("default@user.com", "password", "Default User");
