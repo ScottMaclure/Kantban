@@ -64,6 +64,7 @@ public class StoryTest extends BasicModelTest {
     	assertThat(story.getWorkTime(), is(work));
     }
     
+    // fast forward time
     private int warp(Calendar timeLine, int minutes) {
     	timeLine.add(Calendar.MINUTE, minutes);
     	SystemTime.setDate(timeLine.getTime());
@@ -71,7 +72,7 @@ public class StoryTest extends BasicModelTest {
     }
     
     /**
-     * Test that the statistics about workstates are kept correctly
+     * Test that the statistics about work states are kept correctly
      */
     @Test
     public void testStatistics() {

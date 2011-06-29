@@ -22,7 +22,6 @@ import services.SystemTime;
  * <p>
  * 
  * @author mgjv
- *
  */
 @Entity
 public class Story extends AuditedModel {
@@ -76,17 +75,17 @@ public class Story extends AuditedModel {
 	@Column(name = "archived_on")
 	private Date archivedOn;   		// When moved into archive
 	@Column(name = "ready_on")
-	private Date readyOn;			// When this was story marked as ready
+	private Date readyOn;			// When marked as ready
 	@Column(name = "wait_time")
-	private int waitTime;			// How long this spent in 'ready' state
+	private int waitTime;			// How long spent in 'ready' state, not counting current state
 	@Column(name = "blocked_on")
-	private Date blockedOn;			// When this story blocked
+	private Date blockedOn;			// When blocked
 	@Column(name = "block_time")
-    private int blockTime;			// How long spent in 'blocked' state
+    private int blockTime;			// How long spent in 'blocked' state not counting current state
 
 	
     /**
-     * The time spent working on a story.
+     * The time a story has spent in work lanes
      * <p>
      * This is started when the story is pulled from the 
      * backlog for the first time, and ends when the story is archived.
@@ -103,7 +102,7 @@ public class Story extends AuditedModel {
     }
     
     /**
-     * The time spent between creation and archival of a story.
+     * The time elapsed between creation and archival of a story.
      * @return seconds
      */
     public Integer getLeadTime() {
@@ -129,12 +128,8 @@ public class Story extends AuditedModel {
     			: blockTime;
 	}
     
-    /**
-     * Return the difference between date1 and date2 in seconds
-     * 
-     * @param date1
-     * @param date2
-     * @return seconds
+    /*
+     * Return the difference between two dates or epoch times
      */
     private int dateDiff(Date date1, Date date2) {
 		return dateDiff(date1.getTime(), date2.getTime());
