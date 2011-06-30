@@ -6,11 +6,23 @@ import java.util.List;
 
 import org.junit.Test;
 
+/**
+ * Work out the basic functionality of the Project Model
+ * <p>
+ * Note that there are other tests that exercise the Project.
+ * For example, the StateStatistics test checks that project
+ * level statistics are kept correctly.
+ * 
+ * @author mgjv
+ */
+// TODO add multiple project tests.
 public class ProjectTest extends BasicModelTest {
 	
+    /**
+     * Test that new projects can be created, and have the right defaults
+     */
     @Test
-    public void newProjectTest() {
-    
+    public void newProjectTest() {   
     	Project project = new Project("New project", getDefaultUser());
     	assertThat(project, notNullValue());
     	project.save();
@@ -19,11 +31,26 @@ public class ProjectTest extends BasicModelTest {
     	assertThat(projects.size(), is(1));
     	project = projects.get(0);
     	assertThat(project, notNullValue());
-    	// FIXME Should do this as a Matcher
     	assertThat(project.createdOn, recentDate());
     	assertThat(project.createdUser, is(getDefaultUser()));
+    	
+    	project = new Project("Another project", getDefaultUser());
+    	project.save();
+    	projects = Project.findAll();
+    	assertThat(projects.size(), is(2));
+    	project = new Project("Yet another project", getDefaultUser());
+    	project.save();
+    	projects = Project.findAll();
+    	assertThat(projects.size(), is(3));
+    	for (int i = 0; i < 3; i++) {
+    		project = projects.get(i);
+    		assertThat(project, notNullValue());
+    	}
     }
     
+    /**
+     * Test that adding and removing states works
+     */
     @Test
     public void addAndRemoveStatesTest() {
     	Project project = new Project("New project", getDefaultUser());
@@ -74,6 +101,8 @@ public class ProjectTest extends BasicModelTest {
     }
     
     /**
+     * Test that stories are migrated correctly on state removal
+     * <p>
      * Remove a project state that has stories in it.
      * Ensure the stories end up with another state
      */
@@ -95,46 +124,4 @@ public class ProjectTest extends BasicModelTest {
     	assertThat(story.getState(), is(project.states.get(2)));
     	project.save();
     }
-    
-     /* FIXME
-    private void assertLaneSizes(Project project, int start, int second, int end) {
-    	List<Story> sl;
-
-    	sl = project.getSwimlane(project.states.get(0));
-    	assertThat(sl.size(), is(start));
-    	sl = project.getSwimlane(project.states.get(1));
-    	assertThat(sl.size(), is(second));
-    	sl = project.getSwimlane(project.states.get(project.states.size() - 1));
-    	assertThat(sl.size(), is(end));
-    }
-
-    @Test
-    public void testSwimlanes() {
-    	// Set up the project
-    	Project project = getDefaultProject();
-    	User createdUser = getDefaultUser();
-    	
-    	List<Story> refStories = new ArrayList<Story>();
-    	for (int i = 0; i < 5; i++) {
-    		refStories.add(project.newStory("Story " + i, createdUser));
-    	}
-    	assertThat(project.stories.size(), is(5));
-    	project.save();
-    	
-    	// Test the swim lanes
-    	assertLaneSizes(project, 5, 0, 0);
-    	project.moveStory(refStories.get(0), project.states.get(1), 1.0d);
-    	project.save();
-    	assertLaneSizes(project, 4, 1, 0);
-    	project.moveStory(refStories.get(1), project.states.get(1), 1.0d);
-    	project.moveStory(refStories.get(0), project.states.get(project.states.size() - 1), 1.0d);
-    	project.moveStory(refStories.get(2), project.states.get(1), 1.0d);
-    	project.save();
-    	assertLaneSizes(project, 2, 2, 1);
-    	project.deleteStory(refStories.get(3));
-    	project.save();
-    	assertThat(project.stories.size(), is(4));
-    	assertLaneSizes(project, 1, 2, 1);
-    }
-	*/
 }
