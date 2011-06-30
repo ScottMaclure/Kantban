@@ -71,6 +71,26 @@ nav li a:hover {
     background: rgba(0, 0, 0, 0.2);
 }
 
+/* Default table look */
+
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+tbody {
+    border-bottom: solid 1px;
+}
+th {
+	background-color: black;
+	color: white;
+	border-color: black;
+	font-weight: bold;
+	padding: 2px 4px;
+}
+td {
+	padding: 2px 4px;
+}
+
 /* Modifications of the normal jquery ui styling */
 
 .small-button .ui-button-icon-primary {

@@ -28,16 +28,16 @@ Project(project1):
 State(state1): 
     project: project1
     name: "Sandbox" 
-    description: "Stories that are not ready to be worked on yet."
+    description: "Stories that are **not** ready to be worked on yet."
 State(state2):
     project: project1
     name: "Backlog" 
-    description: "Stories that have been prioritised and estimated."
+    description: "Stories that have been _prioritised_ and _estimated_."
     limit: 4
 State(state3):
     project: project1
     name: "In Progress"
-    description: "Stories that are actively being worked on."
+    description: "Stories that are _actively_ being worked on."
     limit: 3
 State(state4):
     project: project1
@@ -51,7 +51,7 @@ State(state5):
 Story(story1-1):
     state: state2
     title: User Story 1
-    description: As a user I want to be able to see story descriptions in order to understand them.
+    description: As a user I want to be able to see _story_ descriptions in order to understand them.
     createdUser: owner
     owner: owner
     colour: red
@@ -67,7 +67,15 @@ Task(task1):
 Story(story1-2):
     state: state3
     title: Story 2
-    description: As a project owner I want to control everything in order to feel powerful!
+    description: |
+        As a **project owner** I want to control everything in order to feel powerful!
+        
+        This is a paragraph that comes later. And it has a table following it.
+        
+        | A   | B   | C   |
+        |-----|-----|-----|
+        | 1   | 2.0 | 3.0 |
+        | 4.0 | 5   | 6.0 |
     createdUser: owner
     owner: owner
 Story(story1-3):
