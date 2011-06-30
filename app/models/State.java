@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 
 import org.apache.log4j.Logger;
 
@@ -74,25 +75,40 @@ public class State extends Model {
 		Story story = new Story(this, title, createdUser);
 		stories.add(story);
 		rerankStories();
+		updateStatistics();
 		return story;
 	}
 
 	public void addStory(@Nonnull Story story) {
-		story.setState(this);
-		stories.add(story);
-		rerankStories();
+		State oldState = story.getState();
+		if (oldState != this) {
+			story.setState(this);
+			stories.add(story);
+			oldState.stories.remove(story);
+			rerankStories();
+			oldState.updateStatistics();
+			updateStatistics();
+			log.trace("Added story " + story.id + " to state " + id);
+		}
 	}
 	
+	/** 
+	 * Moves a story to a given position in this state
+	 * <p>
+	 * If the story is currently in a different state, 
+	 * this will fail. 
+	 * @param story
+	 * @param index
+	 * @return whether the move was successful
+	 */
 	public boolean moveStory(@Nonnull Story story, int index) {
-		boolean found = (story.getState() != this) ?
-			stories.remove(story) :
-			story.getState().stories.remove(story);
+		boolean found = stories.remove(story);
 		
 		if (found) {
 			story.setState(this);
 			stories.add(index, story);
 			rerankStories();
-			log.debug("Moved story " + story.id + " to position " + index);
+			log.trace("Moved story " + story.id + " to position " + index);
 			return true;
 		}
 		else {
@@ -112,11 +128,16 @@ public class State extends Model {
 
 	/**
 	 * Ensure that statistics are kept on each persist.
+	 * <p>
+	 * This is automatically called by the internals of this class,
+	 * and does not need to be called explicitly outside of this class.
+	 * It is public only to provide a method for data initialisation
+	 * in dev and test environments.
 	 */
-	@SuppressWarnings("unused")
-	@PostPersist
-	private static void updateStatistics() {
-		
+	private void updateStatistics() {
+		log.debug("Updating statistics for State " + id);
+		StateStatistics stats = new StateStatistics(this, stories.size());
+		stats = stats.merge();
+		stats.save();
 	}
-	
 }
