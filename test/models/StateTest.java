@@ -3,7 +3,9 @@ package models;
 import static org.hamcrest.Matchers.*;
 import static matchers.Matchers.recentDate;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.Matcher;
@@ -12,6 +14,7 @@ import org.junit.Test;
 
 import services.SystemTime;
 
+// TODO Test addition and moving of stories.
 public class StateTest extends BasicModelTest {
 	
     @Test
@@ -33,28 +36,5 @@ public class StateTest extends BasicModelTest {
     	assertThat(state.name, is(name));
     	assertThat(state.description, is(description));
     	assertThat(state.limit, is(limit));
-    }
-    
-    // TODO Test addition and moving of stories.
-    
-    // fast forward time
-    private int warp(Calendar timeLine, int days) {
-    	timeLine.add(Calendar.DAY_OF_YEAR, days);
-    	SystemTime.setDate(timeLine.getTime());
-    	return days;
-    }
-    
-    /**
-     * Test that the statistics about work states are kept correctly
-     */
-    @Test
-    public void testStatistics() {
-    	Project project = new Project("Statistics", getDefaultUser());
-    	State sandbox = project.states.get(0);
-    	State analyse = project.states.get(1);
-    	State work = project.states.get(2);
-    	State archive = project.states.get(project.states.size() - 1);
-    	
-    	// Create some new stories
     }
 }

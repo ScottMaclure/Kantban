@@ -36,5 +36,5 @@ public class StateStatistics extends GenericModel {
 		this.day = SystemTime.asDate();
 		this.state = state;
 		this.number = number;
-	}	
+	}
 }
