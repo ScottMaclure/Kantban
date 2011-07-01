@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
@@ -25,6 +26,8 @@ import services.SystemTime;
  */
 public class StateStatisticsTest extends BasicModelTest {
 	
+	private final static Logger log = Logger.getLogger(State.class);
+	
     Calendar timeLine;		// The object to keep track of the time line.
     int elapsed;			// elapsed time in minutes
     Project project;		// The project we're working on
@@ -33,6 +36,10 @@ public class StateStatisticsTest extends BasicModelTest {
 	public void init() {
     	project = new Project("Statistics", getDefaultUser());
     	project.save();
+    	timeLine = Calendar.getInstance();
+    	// Set time to 1 Jan 2011, start of working day.
+    	timeLine.set(2011, 1, 1, 9, 0);
+    	elapsed = warp(0);
 	}
 	
     /**
@@ -40,10 +47,6 @@ public class StateStatisticsTest extends BasicModelTest {
      */
     @Test
     public void testStatistics() {
-    	timeLine = Calendar.getInstance();
-    	// Set time to 1 Jan 2011, start of working day.
-    	timeLine.set(2011, 1, 1, 9, 0);
-    	elapsed = warp(timeLine, 0);
     	// Create some new stories on the first day. Each takes two minutes
     	for (int i = 0; i < 5; i++) {
     		createStory(project.states.get(0), "Sandbox Story " + i);
@@ -59,27 +62,117 @@ public class StateStatisticsTest extends BasicModelTest {
     	assertThat(elapsed, is(35));
     	
     	// End of day 1, go to next working day
-    	elapsed += warp(timeLine, 24 * 60 - elapsed);
+    	nextDay();
     	assertThat(elapsed, is(24 * 60));
     	
-    	// TODO Much more
+    	// Add two new stories to backlog, move one up, and move one from 1 to 2.
+    	for (int i = 0; i < 2; i++) {
+    		createStory(project.states.get(0), "Sandbox Story " + (i + 5));
+    	}
+    	assertLanes(7, 2, 0, 0);
+    	pullStory(project.states.get(0).stories.get(0));
+    	assertLanes(6, 3, 0, 0);
+    	pullStory(project.states.get(1).stories.get(0));
+    	assertLanes(6, 2, 1, 0);
+    	assertThat(elapsed, is(24*60 + 4*5));
     	
+    	nextDay();
+    	assertThat(elapsed, is(2 * 24 * 60));
+
+    	pullStory(project.states.get(0).stories.get(0));
+    	pullStory(project.states.get(0).stories.get(0));
+    	pullStory(project.states.get(1).stories.get(0));
+    	assertLanes(4, 3, 2, 0);
+    	
+    	archiveStory(project.states.get(2).stories.get(0));
+    	assertLanes(4, 3, 1, 1);
+    	
+    	// weekend
+    	nextDay(3);
+    	assertThat(elapsed, is(5 * 24 * 60));
+    	
+    	pullStory(project.states.get(0).stories.get(0));
+    	pullStory(project.states.get(1).stories.get(0));
+    	archiveStory(project.states.get(2).stories.get(0));
+    	archiveStory(project.states.get(0).stories.get(0));
+    	assertLanes(2, 3, 1, 3);
+    	
+    	nextDay();
+
+    	createStory(project.states.get(0), "Sandbox Story " + (5 + 2 + 1));
+    	archiveStory(project.states.get(2).stories.get(0));
+    	assertLanes(3, 3, 0, 4);
+
+    	nextDay();
+
+    	pullStory(project.states.get(1).stories.get(0));
+    	pullStory(project.states.get(1).stories.get(0));
+    	pullStory(project.states.get(0).stories.get(0));
+    	pullStory(project.states.get(0).stories.get(0));
+    	archiveStory(project.states.get(2).stories.get(0));
+    	assertLanes(1, 3, 1, 5);
+    	
+    	nextDay();
+    	
+    	pullStory(project.states.get(1).stories.get(0));
+    	pullStory(project.states.get(1).stories.get(0));
+    	pullStory(project.states.get(0).stories.get(0));
+    	archiveStory(project.states.get(2).stories.get(0));
+    	assertLanes(0, 2, 2, 6);
+    	
+    	pullStory(project.states.get(1).stories.get(0));
+    	pullStory(project.states.get(1).stories.get(0));
+    	archiveStory(project.states.get(2).stories.get(0));
+    	archiveStory(project.states.get(2).stories.get(0));
+    	assertLanes(0, 0, 2, 8);
+    	
+    	archiveStory(project.states.get(2).stories.get(0));
+    	archiveStory(project.states.get(2).stories.get(0));
+    	assertLanes(0, 0, 0, 10);
     }
 
     // fast forward time
-    private int warp(Calendar timeLine, int minutes) {
+    private int warp(int minutes) {
     	timeLine.add(Calendar.MINUTE, minutes);
     	SystemTime.setDate(timeLine.getTime());
     	return minutes;
+    }
+    private void nextDay(int n) {
+    	int minutesToday = elapsed % (24 * 60);
+    	elapsed += warp(n * 24 * 60 - minutesToday);	
+    }
+    private void nextDay() {
+    	nextDay(1);
     }
     
     private void createStory(State state, String title, int minutes) {
 		Story story = state.newStory(title, getDefaultUser());
 		assertThat(story, notNullValue());
-		elapsed += warp(timeLine, minutes);
+		elapsed += warp(minutes);
     }
     private void createStory(State state, String title) {
     	createStory(state, title, 5);
+    }
+    
+    private void pullStory(Story story, int minutes) {
+    	int stateIndex = project.states.indexOf(story.getState());
+    	assertThat(stateIndex, not(-1));
+    	assertThat(stateIndex, lessThan(project.states.size()));
+    	State toState = project.states.get(stateIndex + 1);
+    	toState.addStory(story);
+		elapsed += warp(minutes);
+    }
+    private void pullStory(Story story) {
+    	pullStory(story, 5);
+    }
+    
+    private void archiveStory(Story story, int minutes) {
+    	State archive = project.states.get(project.states.size() - 1);
+    	archive.addStory(story);
+		elapsed += warp(minutes);
+    }
+    private void archiveStory(Story story) {
+    	archiveStory(story, 5);
     }
     
     private void assertLanes(int l1, int l2, int l3, int last) {

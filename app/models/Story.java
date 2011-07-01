@@ -22,6 +22,7 @@ import services.SystemTime;
  * <p>
  * 
  * @author mgjv
+ * @todo Add (event) tracking of each state and status change, rather than just summaries.
  */
 @Entity
 public class Story extends AuditedModel {

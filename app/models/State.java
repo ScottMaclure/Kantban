@@ -82,13 +82,14 @@ public class State extends Model {
 	public void addStory(@Nonnull Story story) {
 		State oldState = story.getState();
 		if (oldState != this) {
+			if (log.isTraceEnabled())
+				log.trace("Adding " + story + " to " + this);
 			story.setState(this);
 			stories.add(story);
 			oldState.stories.remove(story);
 			rerankStories();
 			oldState.updateStatistics();
 			updateStatistics();
-			log.trace("Added story " + story.id + " to state " + id);
 		}
 	}
 	
@@ -105,14 +106,15 @@ public class State extends Model {
 		boolean found = stories.remove(story);
 		
 		if (found) {
+			if (log.isTraceEnabled())
+				log.trace("Moving " + story + " to position " + index);
 			story.setState(this);
 			stories.add(index, story);
 			rerankStories();
-			log.trace("Moved story " + story.id + " to position " + index);
 			return true;
 		}
 		else {
-			log.warn("Cannot move " + story.id + " to position " + index);
+			log.warn("Cannot move " + story + " to position " + index);
 			return false;
 		}
 	}
@@ -135,7 +137,8 @@ public class State extends Model {
 	 * in dev and test environments.
 	 */
 	private void updateStatistics() {
-		log.debug("Updating statistics for State " + id);
+		if (log.isTraceEnabled())
+			log.trace("Updating statistics for State " + id);
 		StateStatistics stats = new StateStatistics(this, stories.size());
 		stats = stats.merge();
 		stats.save();
