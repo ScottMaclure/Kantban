@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class CommentTest extends BasicModelTest {
 	
+	
     @Test
     public void newCommentTest() {
     	String commentText = "Some text to go into this comment";
